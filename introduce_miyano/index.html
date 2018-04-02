@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Introduce Miyano</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created" content="2018-04-02 09:37:56 +0200" />
+    <meta name="modified" content="2018-04-02 09:37:56 +0200" />
+    <meta name="tags" content="dev, dev/github"/>
+    <link rel="stylesheet" href="/default.css" type="text/css">
+  </head>
+  <body>
+    <main class="note-wrapper">
+      <!-- <nav>
+        <a href="/">#</a>
+        
+          <a href="/tag/dev/"># dev</a>
+        
+          <a href="/tag/dev/github/"># dev/github</a>
+        
+      </nav> -->
+      <article>
+       <h1>Introduce Miyano</h1>
+<blockquote>Miyano 0.3</blockquote>
+<br>
+<h3>Requirements</h3>
+<ol><ol start="1" style="counter-reset:ol 0;"><li>macOS</li></ol></ol>
+<ol><ol start="2" style="counter-reset:ol 1;"><li><a href="http://www.bear-writer.com">Bear</a></li></ol></ol>
+<ol><ol start="3" style="counter-reset:ol 2;"><li><a href="https://gorails.com/setup/osx/10.13-high-sierra/#ruby">Ruby >= 2.5.0</a></li></ol></ol>
+<br>
+<h2>Quick Try</h2>
+<ol start="1" style="counter-reset:ol 0;"><li><code class="code-inline">$ gem install miyano</code></li></ol>
+<br>
+<ol start="2" style="counter-reset:ol 1;"><li><code class="code-inline">$ cd ~/Document</code>  ( any place you prefer )</li></ol>
+<br>
+<ol start="3" style="counter-reset:ol 2;"><li>Create a new blog depends on your markup language</li></ol>
+<p>&emsp;<mark>For <b>Default</b> Polar Bear Markup Language</mark></p>
+<p>&emsp;<code class="code-inline">$ miyano new myblog</code></p>
+<p>&emsp;<mark>For <b>Markdown Compatibility Mode</b></mark></p>
+<p>&emsp;<code class="code-inline">$ miyano new myblog -m</code></p>
+<p>( <code class="code-inline">myblog</code> is a directory you want to create )</p>
+<br>
+<ol start="4" style="counter-reset:ol 3;"><li><code class="code-inline">$ cd myblog</code></li></ol>
+<br>
+<ol start="5" style="counter-reset:ol 4;"><li><code class="code-inline">[myblog]$ miyano build</code></li></ol>
+<br>
+<ol start="6" style="counter-reset:ol 5;"><li><code class="code-inline">[myblog]$ miyano try</code></li></ol>
+<br>
+<ol start="7" style="counter-reset:ol 6;"><li>open Browser and go to <code class="code-inline">localhost:8000</code>, <code class="code-inline">Ctrl + C</code> to quit</li></ol>
+<br>
+<h2>Structure</h2>
+<pre><code class="code-multiline highlight">├── layout
+│── ├── default.scss
+│── ├── index.html.erb
+│── └── post.html.erb
+└── post
+    ├── *.bearnote
+</code></pre>
+<br>
+<p>the <code class="code-inline">post/</code> directory is the place where you export you <code class="code-inline">bearnote</code></p>
+<br>
+<p>the <code class="code-inline">layout/</code> directory contains the template files that control the way your blog looks.</p>
+<br>
+<p>read more about template on <a href="https://github.com/wuusn/miyano/wiki">wiki page</a></p>
+<br>
+<h2>Export Your Bear Notes</h2>
+<h3>how to export</h3>
+<p><a href="http://www.bear-writer.com/faq/Import%20&%20export/Export%20your%20notes/">Export your notes - Bear - Faq and support</a></p>
+<br>
+<ol start="1" style="counter-reset:ol 0;"><li>In Bear App => File => Export Notes</li></ol>
+<ol start="2" style="counter-reset:ol 1;"><li>Export as <b>Bear Note</b></li></ol>
+<br>
+<p>What is the Export attachments option ?</p>
+<p>>This option uses for other filetypes which cannot pack pictures or files. The <b>Bear Note</b>  will take good care of all your files and pictures, so you don't need to worry about this option.</p>
+<br>
+<h3>Name</h3>
+<p>You can keep the default name of your bear note, and also can change whatever name you prefer.</p>
+<br>
+<p>The name of the bear note will be the part of the <b>URL</b> of your blog.</p>
+<br>
+<p>For example</p>
+<pre><code class="code-multiline highlight">foo bar.bearnote	-&gt;	site.com/foo%20bar/
+
+foo_bar.bearnote	-&gt;	site.com/foo_bar/
+</code></pre>
+<br>
+<p>The <b>Space</b> in the filename will be translated to  <code class="code-inline">%20</code> in the URL.</p>
+<br>
+<p>If you don't like the <code class="code-inline">%20</code> in the URL, change the <code class="code-inline">space</code> to <code class="code-inline">_</code></p>
+<br>
+<p>If there's a page you want to share with others, then keeping the URL <b>clear and meaningful</b> is important.</p>
+<p>By the way, you don't need to change the name every time you export the notes which will make you complex and trouble.</p>
+<br>
+<br>
+<h3>Date</h3>
+<p>When you create a note in Bear App, it has a <code class="code-inline">create_date</code>. Every time you edit it, the <code class="code-inline">modify_date</code> changes.</p>
+<br>
+<p>The date information keeps after you export them.</p>
+<p>So you don't worry about the date.</p>
+<br>
+<p><mark>copying bearnotes in terminal</mark></p>
+<p>Use <code class="code-inline">cp -p</code> , the <code class="code-inline">-p</code> option will keep the date information, or  you will lose all your date information.</p>
+<br>
+<h3>Attachments</h3>
+<p>The Bear Note will pack all of your attachments ( pictures, files, sketches) , and Miyano will unpack and put them in the right place.</p>
+<br>
+<p>Never worry about the files!</p>
+<br>
+<h2>Github Pages</h2>
+<p>Deploy your blog on the Internet for free and stable.</p>
+<br>
+<h3>Requirements</h3>
+<ol><ol start="1" style="counter-reset:ol 0;"><li><a href="https://github.com/">A Github Account</a></li></ol></ol>
+<ol><ol start="2" style="counter-reset:ol 1;"><li>Create a <b>User Pages</b> site, name the repository using the naming scheme:</li></ol></ol>
+<p>&emsp;&emsp;<code class="code-inline">username.github.io </code></p>
+<br>
+<p>&emsp;Just for your information:</p>
+<p>&emsp;<a href="https://pages.github.com">Github Pages</a></p>
+<p>&emsp;<a href="https://help.github.com/articles/user-organization-and-project-pages/">User, Organization, and Project Pages</a></p>
+<p>&emsp;<mark>Not Support Project Pages</mark></p>
+<br>
+<h3>Push</h3>
+<p><code class="code-inline">$ cd path/to/myblog</code></p>
+<p><code class="code-inline">[myblog]$ miyano push</code></p>
+<p>( the <code class="code-inline">push</code> cmd contains the <code class="code-inline">build</code> cmd )</p>
+<br>
+<p>If you are at the first time, the cmd will ask you for the Github Page's repo URL.</p>
+<br>
+<p>If you do not use <b>git</b> before,  the username and password  will be asked by <b>git</b> (not miyano).</p>
+<br>
+<h3>CNAME - Use your own domain</h3>
+<p><code class="code-inline">cd path/to/myblog</code></p>
+<p><code class="code-inline">[myblog]$ echo "example.com" > _site/CNAME</code></p>
+<p><mark>Create CNAME at local to avoid git conflict</mark></p>
+<br>
+<p>Read More</p>
+<p><a href="https://help.github.com/articles/using-a-custom-domain-with-github-pages/">Using a custom domain with GitHub Pages</a></p>
+<br>
+<p>Recommend Free CDN Service</p>
+<p><a href="https://www.cloudflare.com">Cloudflare</a></p>
+<br>
+<h2>Just Miyano Tip</h2>
+<blockquote>Specify your blog's root  address and Save your time.</blockquote>
+<br>
+<p>If you like miyano,  and decide to use it for a long time.</p>
+<br>
+<p>This little trick will save you much time.</p>
+<p>And the update action will not be so annoying.</p>
+<br>
+<p><code class="code-inline">$ cd path/to/myblog</code></p>
+<p><code class="code-inline">[myblog]$ pwd > ~/.miyano</code></p>
+<br>
+<p>After that, whenever you want to do a update, open the <b>terminal</b> and type <code class="code-inline">miyano</code>, press Enter, done.</p>
+<br>
+<p>Because your root of your blog already had be specified, you don't need to care about the current directory of the terminal any more.</p>
+<br>
+<p>Just <code class="code-inline">miyano</code>.</p>
+<br>
+<p>Enjoy!</p>
+<br>
+<h2>Bugs & Need Help?</h2>
+<h3>About Bear</h3>
+<p><a href="http://www.bear-writer.com/faq/">Bear - Faq and support - Recommend</a></p>
+<p><a href="https://twitter.com/bearnotesapp">Bear - Twitter</a></p>
+<p><a href="https://www.reddit.com/r/bearapp/">Bear - Reddit</a></p>
+<p><a href="http://www.bear-writer.com/contact-us/">Bear - Contact by email</a></p>
+<br>
+<h3>About Miyano</h3>
+<br>
+<p><a href="https://github.com/wuusn/miyano/wiki/FAQ">FAQ · wuusn/miyano Wiki · GitHub</a></p>
+<br>
+<p>You are my special,</p>
+<p>Just contact me.</p>
+<br>
+<p><a href="https://t.me/m1yano">Join Telegram Group @M1yano</a></p>
+<p><a href="https://t.me/o1chi">PM to me @o1chi</a></p>
+<p><a href="mailto:hi@wuyu.xin">mail me: hi@wuyu.xin</a></p>
+<br>
+<p><a href="https://github.com/wuusn/miyano">Source Code on Github</a> </p>
+<br>
+<p><b>Give a Star ★ to support me!</b></p>
+<br>
+<blockquote>Who is Miyano?  ⬇️</blockquote>
+<br>
+<p><img src="assets/IMG_3307.JPG"></p>
+<br>
+<p>“TRY~ ME~” she says.</p>
+<br>
+<p><a href="../tag/dev/github/" class="hashtag">#dev/github</a></p>
+
+     </article>
+    </main>
+  </body>
+<html>
