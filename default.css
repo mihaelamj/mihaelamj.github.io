@@ -139,7 +139,7 @@ html {
   line-height: 1.57143em; }
 
 html {
-  font-size: 14px;
+  font-size: 1.5em;
   line-height: 1.6em;
   -webkit-text-size-adjust: 100%; }
 
@@ -156,21 +156,21 @@ a {
 h1 {
   font-family: "AvenirNext-Medium";
   color: #333;
-  font-size: 1.6em;
+  font-size: 1.8em;
   line-height: 1.3em;
   margin-bottom: 0.78571em; }
 
 h2 {
   font-family: "AvenirNext-Medium";
   color: #333;
-  font-size: 1.3em;
+  font-size: 1.7em;
   line-height: 1em;
   margin-bottom: 0.62857em; }
 
 h3 {
   font-family: "AvenirNext-Medium";
   color: #333;
-  font-size: 1.15em;
+  font-size: 1.6em;
   line-height: 1em;
   margin-bottom: 0.47143em; }
 
