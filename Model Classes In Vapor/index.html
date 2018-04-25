@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Model Classes In Vapor</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created" content="2018-04-25 18:57:55 +0200" />
+    <meta name="modified" content="2018-04-25 19:01:49 +0200" />
+    <meta name="tags" content="vapor, swift, pub"/>
+    <link rel="stylesheet" href="/default.css" type="text/css">
+  </head>
+  <body>
+    <main class="note-wrapper">
+      <!-- <nav>
+        <a href="/">#</a>
+        
+          <a href="/tag/vapor/"># vapor</a>
+        
+          <a href="/tag/swift/"># swift</a>
+        
+          <a href="/tag/pub/"># pub</a>
+        
+      </nav> -->
+      <article>
+       <h1>Model Classes In Vapor</h1>
+<p>To be able to use model classes in both vapor and iOS/MacOS project, it’s best to  make use of </p>
+<br>
+<pre><code class="code-multiline highlight"><span class="kt">Xcode</span> 
+</code></pre>
+<br>
+<p>conditional compile variable.</p>
+<br>
+<p>Example:</p>
+<br>
+<pre><code class="code-multiline highlight"><span class="kd">final</span> <span class="kd">class</span> <span class="kt">Tip</span> <span class="p">:</span> <span class="kt">Codable</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">id</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">?</span>
+  <span class="k">var</span> <span class="nv">name</span> <span class="p">:</span> <span class="kt">String</span>
+  <span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span>
+  
+  <span class="nf">init</span><span class="p">(</span><span class="nv">name</span> <span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cp">#if Xcode</span>
+<span class="kd">import</span> <span class="kt">FluentPostgreSQL</span>
+<span class="kd">import</span> <span class="kt">Vapor</span>
+<span class="kd">extension</span> <span class="kt">Tip</span> <span class="p">:</span> <span class="kt">PostgreSQLModel</span> <span class="p">{}</span>
+<span class="kd">extension</span> <span class="kt">Tip</span> <span class="p">:</span> <span class="kt">Content</span><span class="p">{}</span>
+<span class="kd">extension</span> <span class="kt">Tip</span> <span class="p">:</span> <span class="kt">Migration</span><span class="p">{}</span>
+<span class="kd">extension</span> <span class="kt">Tip</span> <span class="p">:</span> <span class="kt">Parameter</span><span class="p">{}</span>
+<span class="cp">#endif</span>
+</code></pre>
+<br>
+<p><a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/swift/" class="hashtag">#swift</a> <a href="../tag/pub/" class="hashtag">#pub</a></p>
+<br>
+
+     </article>
+    </main>
+  </body>
+<html>
