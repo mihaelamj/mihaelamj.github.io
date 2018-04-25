@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Install PostgreSQL in Docker</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created" content="2018-04-25 19:24:32 +0200" />
+    <meta name="modified" content="2018-04-25 19:28:35 +0200" />
+    <meta name="tags" content="pub, postgresql, docker"/>
+    <link rel="stylesheet" href="/default.css" type="text/css">
+  </head>
+  <body>
+    <main class="note-wrapper">
+      <!-- <nav>
+        <a href="/">#</a>
+        
+          <a href="/tag/pub/"># pub</a>
+        
+          <a href="/tag/postgresql/"># postgresql</a>
+        
+          <a href="/tag/docker/"># docker</a>
+        
+      </nav> -->
+      <article>
+       <h1>Install PostgreSQL in Docker</h1>
+<p>Run the command in terminal to install PostgreSQL in Docker:</p>
+<pre><code class="code-multiline highlight">docker run --name postgres -e POSTGRES_DB=vapor \
+  -e POSTGRES_USER=vapor -e POSTGRES_PASSWORD=password \
+  -p 5432:5432 -d postgres
+</code></pre>
+<br>
+<p>Here’s what this does:</p>
+<p>• Run a new container named postgres.</p>
+<p>• Specify the database name, username and password through environment variables.</p>
+<p>• Allow applications to connect to the Postgres server on its default port: 5432.</p>
+<p>• Run the server in the background as a daemon.</p>
+<p>• Use the Docker image named postgres for this container. If the image is not present on your machine, Docker automatically downloads it.</p>
+<br>
+<p>Docker then downloads all the dependencies and installs them in the current container.</p>
+<br>
+<p>To check that your database is running, enter the following in Terminal to list all active containers:</p>
+<br>
+<pre><code class="code-multiline highlight">docker ps
+</code></pre>
+<br>
+<p><a href="../tag/pub/" class="hashtag">#pub</a> <a href="../tag/postgresql/" class="hashtag">#postgresql</a> <a href="../tag/docker/" class="hashtag">#docker</a></p>
+
+     </article>
+    </main>
+  </body>
+<html>
