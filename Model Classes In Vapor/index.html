@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-04-25 18:57:55 +0200" />
-    <meta name="modified" content="2018-04-25 20:43:18 +0200" />
+    <meta name="modified" content="2018-04-25 21:11:24 +0200" />
     <meta name="tags" content="vapor, swift, pub, tips"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -55,6 +55,19 @@
 <span class="kd">extension</span> <span class="kt">Tip</span> <span class="p">:</span> <span class="kt">Parameter</span><span class="p">{}</span>
 <span class="cp">#endif</span>
 </code></pre>
+<br>
+<p>When making model object for Vapour App, aim to use classes, not structs (for numerous reasons that will be explained later).</p>
+<br>
+<p>Also, conforming to <code class="code-inline"></code><code class="code-inline">Codable</code><code class="code-inline"></code> gives you  easy persistence.</p>
+<br>
+<p>When you conform to Vapor’s <code class="code-inline"></code><code class="code-inline">Content</code><code class="code-inline"></code> protocol you get easy representation of your model in an HTTP message:</p>
+<br>
+<pre><code class="code-multiline highlight"><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Content</span><span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">ResponseCodable</span><span class="p">,</span> <span class="kt">RequestCodable</span>
+</code></pre>
+<br>
+<p>The class first conforms to <code class="code-inline"></code><code class="code-inline">Content</code><code class="code-inline"></code>, and in another part of the file to <code class="code-inline"></code><code class="code-inline">Codable</code><code class="code-inline"></code>. That may seem redundant, but I wanted to use the same file for server and client app.</p>
+<br>
+<br>
 <br>
 <p>Prev: <a href="/Add%20PostgreSQL%20into%20Vapor%20App/">Add PostgreSQL into Vapor App</a></p>
 <br>
