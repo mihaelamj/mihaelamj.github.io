@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Configure a Database in Vapor</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created" content="2018-04-26 10:20:33 +0200" />
+    <meta name="modified" content="2018-04-26 10:31:55 +0200" />
+    <meta name="tags" content="pub, postgresql, db, vapor, swift"/>
+    <link rel="stylesheet" href="/default.css" type="text/css">
+  </head>
+  <body>
+    <main class="note-wrapper">
+      <!-- <nav>
+        <a href="/">#</a>
+        
+          <a href="/tag/pub/"># pub</a>
+        
+          <a href="/tag/postgresql/"># postgresql</a>
+        
+          <a href="/tag/db/"># db</a>
+        
+          <a href="/tag/vapor/"># vapor</a>
+        
+          <a href="/tag/swift/"># swift</a>
+        
+      </nav> -->
+      <article>
+       <h1>Configure a Database in Vapor</h1>
+<p>Database is configured in <code class="code-inline"></code><code class="code-inline">configure.swift</code><code class="code-inline"></code> file.</p>
+<br>
+<pre><code class="code-multiline highlight">  <span class="k">let</span> <span class="nv">psqlConfig</span> <span class="o">=</span> <span class="kt">PostgreSQLDatabaseConfig</span><span class="p">(</span><span class="nv">hostname</span><span class="p">:</span> <span class="s">"localhost"</span><span class="p">,</span> <span class="nv">port</span><span class="p">:</span> <span class="mi">5432</span><span class="p">,</span> <span class="nv">username</span><span class="p">:</span> <span class="s">"vapor"</span><span class="p">,</span> <span class="nv">password</span><span class="p">:</span> <span class="s">"password"</span><span class="p">)</span>
+  <span class="k">var</span> <span class="nv">dbConfig</span> <span class="o">=</span> <span class="kt">DatabaseConfig</span><span class="p">()</span>
+  
+  <span class="k">let</span> <span class="nv">database</span> <span class="o">=</span> <span class="kt">PostgreSQLDatabase</span><span class="p">(</span><span class="nv">config</span><span class="p">:</span> <span class="n">psqlConfig</span><span class="p">)</span>
+  <span class="n">dbConfig</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">database</span><span class="p">:</span> <span class="n">database</span><span class="p">,</span> <span class="nv">as</span><span class="p">:</span> <span class="o">.</span><span class="n">psql</span><span class="p">)</span>
+  <span class="n">services</span><span class="o">.</span><span class="nf">register</span><span class="p">(</span><span class="n">dbConfig</span><span class="p">)</span>
+</code></pre>
+<br>
+<p>Use the same username and password as in  <a href="/Add%20PostgreSQL%20into%20Vapor%20App/">Add PostgreSQL into Vapor App</a>.</p>
+<br>
+<p>Vapour docs state that migrations are a way of making organized, testable, and reliable changes to your database's structure-- even while it's in production!</p>
+<p>Migrations are often used for preparing a database schema for your models. However, they can also be used to make normal queries to your database.</p>
+<br>
+<p>Configure migrations (also in <code class="code-inline"></code><code class="code-inline">configure.swift</code><code class="code-inline"></code> file) :</p>
+<br>
+<pre><code class="code-multiline highlight">  <span class="k">var</span> <span class="nv">migrations</span> <span class="o">=</span> <span class="kt">MigrationConfig</span><span class="p">()</span>
+  <span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">model</span><span class="p">:</span> <span class="kt">Tip</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">psql</span><span class="p">)</span>
+  <span class="n">services</span><span class="o">.</span><span class="nf">register</span><span class="p">(</span><span class="n">migrations</span><span class="p">)</span>
+</code></pre>
+<br>
+<p>Here we just declared that our prosgreSQL database has just one table <code class="code-inline"></code><code class="code-inline">Tip</code><code class="code-inline"></code> for out Tip model.</p>
+<br>
+<br>
+<p>Prev: <a href="/Add%20PostgreSQL%20into%20Vapor%20App/">Add PostgreSQL into Vapor App</a></p>
+<p>Next: </p>
+<br>
+<p><a href="../tag/pub/" class="hashtag">#pub</a> <a href="../tag/postgresql/" class="hashtag">#postgresql</a> <a href="../tag/db/" class="hashtag">#db</a> <a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/swift/" class="hashtag">#swift</a></p>
+
+     </article>
+    </main>
+  </body>
+<html>
