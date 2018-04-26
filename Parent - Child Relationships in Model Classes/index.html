@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-04-27 00:12:04 +0200" />
-    <meta name="modified" content="2018-04-27 00:29:33 +0200" />
+    <meta name="modified" content="2018-04-27 00:34:16 +0200" />
     <meta name="tags" content="pub, model, swift, vapor, ddl"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -35,7 +35,7 @@
 <h2>Parent for Technique</h2>
 <pre><code class="code-multiline highlight"><span class="c1">// Technique ⇇↦ Heat</span>
 <span class="kd">extension</span> <span class="kt">Technique</span> <span class="p">{</span>
-  <span class="k">var</span> <span class="nv">user</span><span class="p">:</span> <span class="kt">Parent</span><span class="o">&lt;</span><span class="kt">Technique</span><span class="p">,</span> <span class="kt">Heat</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">parent</span><span class="p">:</span> <span class="kt">Parent</span><span class="o">&lt;</span><span class="kt">Technique</span><span class="p">,</span> <span class="kt">Heat</span><span class="o">&gt;</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nf">parent</span><span class="p">(\</span><span class="o">.</span><span class="n">heatID</span><span class="p">)</span>
   <span class="p">}</span>
 <span class="p">}</span>
