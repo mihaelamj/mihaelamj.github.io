@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pre-populating Related Tables in Vapor</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created" content="2018-04-26 16:33:28 +0200" />
+    <meta name="modified" content="2018-04-26 16:39:09 +0200" />
+    <meta name="tags" content="pub, vapor, postgresql, ddl, one-to-many, many-to-one, migration"/>
+    <link rel="stylesheet" href="/default.css" type="text/css">
+  </head>
+  <body>
+    <main class="note-wrapper">
+      <!-- <nav>
+        <a href="/">#</a>
+        
+          <a href="/tag/pub/"># pub</a>
+        
+          <a href="/tag/vapor/"># vapor</a>
+        
+          <a href="/tag/postgresql/"># postgresql</a>
+        
+          <a href="/tag/ddl/"># ddl</a>
+        
+          <a href="/tag/one-to-many/"># one-to-many</a>
+        
+          <a href="/tag/many-to-one/"># many-to-one</a>
+        
+          <a href="/tag/migration/"># migration</a>
+        
+      </nav> -->
+      <article>
+       <h1>Pre-populating Related Tables in Vapor</h1>
+<p>Let’s say we have two related tables: Heat and Technique:</p>
+<p>Heat ↤⇉ Technique</p>
+<p>Their relation  is one - to - many, so for one heat (dry, moist) there are many cooking techniques. But vice versa does not apply.</p>
+<br>
+<p>If we want to pre-populate <code class="code-inline"></code><code class="code-inline">Technique</code><code class="code-inline"></code> table, we first need to have <code class="code-inline"></code><code class="code-inline">Heat</code><code class="code-inline"></code> table populated.</p>
+<p>We also need a <code class="code-inline"></code><code class="code-inline">Heat.ID</code><code class="code-inline"></code> for each <code class="code-inline"></code><code class="code-inline">Technique</code><code class="code-inline"></code> entity.</p>
+<br>
+<br>
+<p><a href="../tag/pub/" class="hashtag">#pub</a> <a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/postgresql/" class="hashtag">#postgresql</a> <a href="../tag/ddl/" class="hashtag">#ddl</a> <a href="../tag/one-to-many/" class="hashtag">#one-to-many</a> <a href="../tag/many-to-one/" class="hashtag">#many-to-one</a> <a href="../tag/migration/" class="hashtag">#migration</a></p>
+
+     </article>
+    </main>
+  </body>
+<html>
