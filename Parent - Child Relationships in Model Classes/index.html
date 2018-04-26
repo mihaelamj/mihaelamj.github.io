@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parent - Child Relationships in Model Classes</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created" content="2018-04-27 00:12:04 +0200" />
+    <meta name="modified" content="2018-04-27 00:25:51 +0200" />
+    <meta name="tags" content="pub, model, swift, vapor, ddl"/>
+    <link rel="stylesheet" href="/default.css" type="text/css">
+  </head>
+  <body>
+    <main class="note-wrapper">
+      <!-- <nav>
+        <a href="/">#</a>
+        
+          <a href="/tag/pub/"># pub</a>
+        
+          <a href="/tag/model/"># model</a>
+        
+          <a href="/tag/swift/"># swift</a>
+        
+          <a href="/tag/vapor/"># vapor</a>
+        
+          <a href="/tag/ddl/"># ddl</a>
+        
+      </nav> -->
+      <article>
+       <h1>Parent - Child Relationships in Model Classes</h1>
+<p>When we have two models that have ↤⇉ one - to - many relationship we may get the <code class="code-inline"></code><code class="code-inline">Children</code><code class="code-inline"></code> and the <code class="code-inline"></code><code class="code-inline">Parent</code><code class="code-inline"></code> from both sides of the relationship.</p>
+<br>
+<p>For example if we have two models with one - to many relationship like this:</p>
+<p>Heat  ↤⇉ Technique, we may then get the <code class="code-inline"></code><code class="code-inline">Parent</code><code class="code-inline"></code> for <code class="code-inline"></code><code class="code-inline">Technique</code><code class="code-inline"></code> and the <code class="code-inline"></code><code class="code-inline">Children</code><code class="code-inline"></code> for the <code class="code-inline"></code><code class="code-inline">Heat</code><code class="code-inline"></code>.</p>
+<br>
+<h2>Parent for Technique</h2>
+<pre><code class="code-multiline highlight"><span class="c1">// Technique ⇇↦ Heat</span>
+<span class="kd">extension</span> <span class="kt">Technique</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">user</span><span class="p">:</span> <span class="kt">Parent</span><span class="o">&lt;</span><span class="kt">Technique</span><span class="p">,</span> <span class="kt">Heat</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">parent</span><span class="p">(\</span><span class="o">.</span><span class="n">heatID</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<br>
+<h2>Children for Heat</h2>
+<pre><code class="code-multiline highlight"><span class="c1">//Heat ↤⇉ Technique</span>
+<span class="kd">extension</span> <span class="kt">Heat</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">techniques</span><span class="p">:</span> <span class="kt">Children</span><span class="o">&lt;</span><span class="kt">Heat</span><span class="p">,</span> <span class="kt">Technique</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">children</span><span class="p">(\</span><span class="o">.</span><span class="n">heatID</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<br>
+<br>
+<br>
+<br>
+<p><a href="../tag/pub/" class="hashtag">#pub</a> <a href="../tag/model/" class="hashtag">#model</a> <a href="../tag/swift/" class="hashtag">#swift</a> <a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/ddl/" class="hashtag">#ddl</a></p>
+
+     </article>
+    </main>
+  </body>
+<html>
