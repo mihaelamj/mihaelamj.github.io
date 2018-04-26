@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Revert Last Migration</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created" content="2018-04-26 19:34:13 +0200" />
+    <meta name="modified" content="2018-04-26 19:48:51 +0200" />
+    <meta name="tags" content="pub, vapor, postgresql, ddl, one-to-many, many-to-one, migration"/>
+    <link rel="stylesheet" href="/default.css" type="text/css">
+  </head>
+  <body>
+    <main class="note-wrapper">
+      <!-- <nav>
+        <a href="/">#</a>
+        
+          <a href="/tag/pub/"># pub</a>
+        
+          <a href="/tag/vapor/"># vapor</a>
+        
+          <a href="/tag/postgresql/"># postgresql</a>
+        
+          <a href="/tag/ddl/"># ddl</a>
+        
+          <a href="/tag/one-to-many/"># one-to-many</a>
+        
+          <a href="/tag/many-to-one/"># many-to-one</a>
+        
+          <a href="/tag/migration/"># migration</a>
+        
+      </nav> -->
+      <article>
+       <h1>Revert Last Migration</h1>
+<p>Imagine a situation in which you prepared some migrations to pre<s>populate data in the database, but after a while you need to add new pre</s>existing data. In the context of a cooking app, a new ingredient becomes available, and you want to add to the existing database.</p>
+<p>Surely you can re-create the table all over again, but you want to do it in production, on a live database.</p>
+<br>
+<p>In order to do that we must first enable <code class="code-inline"></code>revert<code class="code-inline"></code>` (there will be more in the future) Fluent command.</p>
+<br>
+<p>In <code class="code-inline"></code><code class="code-inline">configure.swift</code><code class="code-inline"></code> add this code in <code class="code-inline"></code><code class="code-inline">configure</code><code class="code-inline"></code> function:</p>
+<br>
+<pre><code class="code-multiline highlight">  <span class="c1">//Adds Fluent’s commands to the CommandConfig. Currently only the RevertCommand at "revert".</span>
+  <span class="k">var</span> <span class="nv">commandConfig</span> <span class="o">=</span> <span class="kt">CommandConfig</span><span class="o">.</span><span class="nf">default</span><span class="p">()</span>
+  <span class="n">commandConfig</span><span class="o">.</span><span class="nf">useFluentCommands</span><span class="p">()</span>
+  <span class="n">services</span><span class="o">.</span><span class="nf">register</span><span class="p">(</span><span class="n">commandConfig</span><span class="p">)</span>
+</code></pre>
+<br>
+<p>To see what <code class="code-inline"></code><code class="code-inline">run commands</code><code class="code-inline"></code> are available for a Vapor app, just  type:</p>
+<pre><code class="code-multiline highlight">/Users&lt;path to your Vapor app&gt;/Run -h
+</code></pre>
+<br>
+<p>After I added extra command, I got this as a result:</p>
+<pre><code class="code-multiline highlight">Commands:
+  routes Displays all registered routes
+  revert Reverts migrations that have been previously prepared.
+         By default, only the latest batch of migrations will be reverted.
+   serve (default) Begins serving the app over HTTP
+</code></pre>
+<br>
+<p>And by typing:</p>
+<pre><code class="code-multiline highlight">/Users&lt;path to your Vapor app&gt;/Run revert
+</code></pre>
+<br>
+<p>I have reverted the last migration:</p>
+<br>
+<pre><code class="code-multiline highlight">mmj$ /Users/mmj/Developer/me/vap/tastee/DerivedData/tastee/Build/Products/Debug/Run revert
+[ INFO ] Migrating 'psql' database (FluentProvider.swift:28)
+[ INFO ] Migrations complete (FluentProvider.swift:32)
+[ INFO ] Revert last batch of migrations requested (RevertCommand.swift:57)
+[ WARNING ] This will revert the last batch of migrations for all configured databases (RevertCommand.swift:58)
+Are you sure you want to revert the last batch of migrations?
+y/n&gt; y
+[ INFO ] Reverting last batch of migrations on 'psql' database (RevertCommand.swift:65)
+[ INFO ] Reverting migration 'PopulateTypes' (MigrationContainer.swift:94)
+[ INFO ] Reverting migration 'Type' (MigrationContainer.swift:94)
+[ INFO ] Succesfully reverted last batch of migrations (RevertCommand.swift:69)
+</code></pre>
+<br>
+<p><a href="../tag/pub/" class="hashtag">#pub</a> <a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/postgresql/" class="hashtag">#postgresql</a> <a href="../tag/ddl/" class="hashtag">#ddl</a> <a href="../tag/one-to-many/" class="hashtag">#one-to-many</a> <a href="../tag/many-to-one/" class="hashtag">#many-to-one</a> <a href="../tag/migration/" class="hashtag">#migration</a></p>
+
+     </article>
+    </main>
+  </body>
+<html>
