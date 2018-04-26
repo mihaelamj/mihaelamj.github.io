@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-04-26 10:57:01 +0200" />
-    <meta name="modified" content="2018-04-26 11:12:53 +0200" />
+    <meta name="modified" content="2018-04-26 13:56:10 +0200" />
     <meta name="tags" content="pub, db, postgresql, vapor, swift, ddl"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -29,6 +29,78 @@
       </nav> -->
       <article>
        <h1>Pre-populating a Database with Data in Vapor</h1>
+<p>If your database needs some pre-populated data, that process is done in Vapor via <code class="code-inline"></code><code class="code-inline">migrations</code><code class="code-inline"></code></p>
+<br>
+<h2>Structure your project</h2>
+<p>My workflow for creating a migration for some model is:</p>
+<ol start="1" style="counter-reset:ol 0;"><li>Exit  Xcode</li></ol>
+<ol start="2" style="counter-reset:ol 1;"><li>Make <code class="code-inline"></code><code class="code-inline">/App/Migrations</code><code class="code-inline"></code> directory</li></ol>
+<ol start="3" style="counter-reset:ol 2;"><li>Make <code class="code-inline"></code><code class="code-inline">/App/Migrations/Populate<Model-Name>.swift</code><code class="code-inline"></code> file</li></ol>
+<ol start="4" style="counter-reset:ol 3;"><li><a href="/Generate%20Xcode%20Project/">Generate Xcode Project</a></li></ol>
+<br>
+<h2>Make the Migration class</h2>
+<p>Make a new class that conforms to <code class="code-inline"></code><code class="code-inline">Migration</code><code class="code-inline"></code> protocol:</p>
+<pre><code class="code-multiline highlight"><span class="kd">import</span> <span class="kt">FluentPostgreSQL</span>
+
+<span class="kd">final</span> <span class="kd">class</span> <span class="kt">PopulateForms</span><span class="p">:</span> <span class="kt">Migration</span> <span class="p">{</span>
+  <span class="kd">typealias</span> <span class="kt">Database</span> <span class="o">=</span> <span class="kt">PostgreSQLDatabase</span>
+  
+  <span class="kd">static</span> <span class="k">let</span> <span class="nv">formNames</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s">"powder"</span><span class="p">,</span>
+    <span class="s">"seed"</span><span class="p">,</span>
+    <span class="s">"whole"</span><span class="p">,</span>
+    <span class="s">"granules"</span>
+  <span class="p">]</span>
+  
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">prepare</span><span class="p">(</span><span class="n">on</span> <span class="nv">connection</span><span class="p">:</span> <span class="kt">PostgreSQLConnection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="c1">// Insert all forms from formNames</span>
+    <span class="k">let</span> <span class="nv">futures</span> <span class="o">=</span> <span class="n">formNames</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="n">name</span> <span class="k">in</span>
+      <span class="k">return</span> <span class="kt">Form</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="nf">create</span><span class="p">(</span><span class="nv">on</span><span class="p">:</span> <span class="n">connection</span><span class="p">)</span><span class="o">.</span><span class="nf">map</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="kt">Void</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="k">return</span> <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;.</span><span class="nf">andAll</span><span class="p">(</span><span class="n">futures</span><span class="p">,</span> <span class="nv">eventLoop</span><span class="p">:</span> <span class="n">connection</span><span class="o">.</span><span class="n">eventLoop</span><span class="p">)</span>
+  <span class="p">}</span>
+  
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">revert</span><span class="p">(</span><span class="n">on</span> <span class="nv">connection</span><span class="p">:</span> <span class="kt">PostgreSQLConnection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">do</span> <span class="p">{</span>
+      <span class="c1">// Delete all names</span>
+      <span class="k">let</span> <span class="nv">futures</span> <span class="o">=</span> <span class="k">try</span> <span class="n">formNames</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="n">name</span> <span class="k">in</span>
+        <span class="k">return</span> <span class="k">try</span> <span class="kt">Form</span><span class="o">.</span><span class="nf">query</span><span class="p">(</span><span class="nv">on</span><span class="p">:</span> <span class="n">connection</span><span class="p">)</span><span class="o">.</span><span class="nf">filter</span><span class="p">(\</span><span class="kt">Form</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="nf">delete</span><span class="p">()</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;.</span><span class="nf">andAll</span><span class="p">(</span><span class="n">futures</span><span class="p">,</span> <span class="nv">eventLoop</span><span class="p">:</span> <span class="n">connection</span><span class="o">.</span><span class="n">eventLoop</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">catch</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="n">connection</span><span class="o">.</span><span class="n">eventLoop</span><span class="o">.</span><span class="nf">newFailedFuture</span><span class="p">(</span><span class="nv">error</span><span class="p">:</span> <span class="n">error</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre>
+<br>
+<p>You need to specify the Database alias:</p>
+<pre><code class="code-multiline highlight"><span class="kd">typealias</span> <span class="kt">Database</span> <span class="o">=</span> <span class="kt">PostgreSQLDatabase</span>
+</code></pre>
+<br>
+<p>And implement methods for adding and deleting data:</p>
+<pre><code class="code-multiline highlight"><span class="kd">static</span> <span class="kd">func</span> <span class="nf">prepare</span><span class="p">(</span><span class="n">on</span> <span class="nv">connection</span><span class="p">:</span> <span class="kt">PostgreSQLConnection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{}</span>
+<span class="kd">static</span> <span class="kd">func</span> <span class="nf">revert</span><span class="p">(</span><span class="n">on</span> <span class="nv">connection</span><span class="p">:</span> <span class="kt">PostgreSQLConnection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{}</span>
+</code></pre>
+<p>With the appropriate database connection type.</p>
+<br>
+<h2>Add the migration to the config</h2>
+<p>Call the migration from the <code class="code-inline"></code><code class="code-inline">configure.swift</code><code class="code-inline"></code> file:</p>
+<pre><code class="code-multiline highlight">  <span class="c1">/// Configure migrations</span>
+  <span class="k">var</span> <span class="nv">migrations</span> <span class="o">=</span> <span class="kt">MigrationConfig</span><span class="p">()</span>
+  <span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">model</span><span class="p">:</span> <span class="kt">Tip</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">psql</span><span class="p">)</span>
+  <span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">model</span><span class="p">:</span> <span class="kt">Season</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">psql</span><span class="p">)</span>
+  
+  <span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">model</span><span class="p">:</span> <span class="kt">Form</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">psql</span><span class="p">)</span>
+  <span class="c1">//pre-populate form names with PopulateForms.self migration</span>
+  <span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">PopulateForms</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">psql</span><span class="p">)</span>
+  
+  <span class="n">services</span><span class="o">.</span><span class="nf">register</span><span class="p">(</span><span class="n">migrations</span><span class="p">)</span>
+</code></pre>
+<br>
+<p>Just make sure that the model object <code class="code-inline"></code><code class="code-inline">Form</code><code class="code-inline"></code> here, is added to the migrations before the <code class="code-inline"></code><code class="code-inline">PopulateForms</code><code class="code-inline"></code>.</p>
 <br>
 <p>Prev:  <a href="/Adding%20Foreign%20Keys%20to%20a%20Database%20in%20Vapor/">Adding Foreign Keys to a Database in Vapor</a></p>
 <p>Next:</p>
