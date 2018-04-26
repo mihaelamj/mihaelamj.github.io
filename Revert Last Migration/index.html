@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-04-26 19:34:13 +0200" />
-    <meta name="modified" content="2018-04-26 19:56:22 +0200" />
+    <meta name="modified" content="2018-04-26 19:58:31 +0200" />
     <meta name="tags" content="pub, vapor, postgresql, ddl, one-to-many, many-to-one, migration, revert"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -33,7 +33,7 @@
       </nav> -->
       <article>
        <h1>Revert Last Migration</h1>
-<p>Imagine a situation in which you prepared some migrations to pre<s>populate data in the database, but after a while you need to add new pre</s>existing data. In the context of a cooking app, a new ingredient becomes available, and you want to add to the existing database.</p>
+<p>Imagine a situation in which you prepared some migrations to pre - populate data in the database, but after a while you need to add new pre-  existing data. In the context of a cooking app, a new ingredient becomes available, and you want to add to the existing database.</p>
 <p>Surely you can re-create the table all over again, but you want to do it in production, on a live database.</p>
 <br>
 <p>In order to do that we must first enable <code class="code-inline"></code>revert<code class="code-inline"></code>` (there will be more in the future) Fluent command.</p>
