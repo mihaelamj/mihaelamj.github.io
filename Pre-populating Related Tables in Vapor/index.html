@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-04-26 16:33:28 +0200" />
-    <meta name="modified" content="2018-04-26 17:41:00 +0200" />
+    <meta name="modified" content="2018-04-26 17:57:27 +0200" />
     <meta name="tags" content="pub, vapor, postgresql, ddl, one-to-many, many-to-one, migration"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -125,6 +125,7 @@
     <span class="p">}</span>
   <span class="p">}</span>
 </code></pre>
+<br>
 <h2>Implement Migration Requirements</h2>
 <pre><code class="code-multiline highlight">  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">prepare</span><span class="p">(</span><span class="n">on</span> <span class="nv">connection</span><span class="p">:</span> <span class="kt">PostgreSQLConnection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{</span>
     <span class="c1">// Insert all heats from techniques</span>
