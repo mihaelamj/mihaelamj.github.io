@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Database Relationships</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created" content="2018-04-26 13:12:15 +0200" />
+    <meta name="modified" content="2018-04-26 21:14:00 +0200" />
+    <meta name="tags" content="pub, vapor, swift, db, ddl"/>
+    <link rel="stylesheet" href="/default.css" type="text/css">
+  </head>
+  <body>
+    <main class="note-wrapper">
+      <!-- <nav>
+        <a href="/">#</a>
+        
+          <a href="/tag/pub/"># pub</a>
+        
+          <a href="/tag/vapor/"># vapor</a>
+        
+          <a href="/tag/swift/"># swift</a>
+        
+          <a href="/tag/db/"># db</a>
+        
+          <a href="/tag/ddl/"># ddl</a>
+        
+      </nav> -->
+      <article>
+       <h1>Database Relationships</h1>
+<p>Relationships between entities in a database may be one of the following:</p>
+<br>
+<ul><li>⟷ one<s>to</s>one</li></ul>
+<ul><ul><li>One element of A may only be linked to one element of B, and vice versa.</li></ul></ul>
+<ul><ul><li>Country and a capital city.</li></ul></ul>
+<ul><li>↤⇉ one<s>to</s>many</li></ul>
+<ul><ul><li>One element of A may be linked to many elements of B, but a member of B is linked to only one element of A.</li></ul></ul>
+<ul><ul><li>One mother and multiple children.</li></ul></ul>
+<ul><li>⇇↦ many<s>to</s>one</li></ul>
+<ul><ul><li>Same as previous, but sides are reversed.</li></ul></ul>
+<ul><li>⇇⇉ many<s>to</s>many</li></ul>
+<ul><ul><li>One element A may contain a parent instance for which there are many children in B and vice versa</li></ul></ul>
+<ul><ul><li>A as Authors, and B as Books. An Author can write several Books, and a Book can be written by several Authors.</li></ul></ul>
+<ul><ul><li>This relationship requires additional <code class="code-inline"></code><code class="code-inline">associative</code><code class="code-inline"></code> table that stores <code class="code-inline"></code><code class="code-inline">ID</code><code class="code-inline"></code>’s  of both A and B.</li></ul></ul>
+<br>
+<p>(↤⇉ one<s>to</s>many and ⇇↦ many<s>to</s>one  are the same thing, but II like to see the “one” and the “many” sides clearly marked)</p>
+<br>
+<p><a href="../tag/pub/" class="hashtag">#pub</a> <a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/swift/" class="hashtag">#swift</a> <a href="../tag/db/" class="hashtag">#db</a> <a href="../tag/ddl/" class="hashtag">#ddl</a></p>
+
+     </article>
+    </main>
+  </body>
+<html>
