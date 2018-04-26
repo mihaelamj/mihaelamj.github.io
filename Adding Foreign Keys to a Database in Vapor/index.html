@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-04-26 10:54:42 +0200" />
-    <meta name="modified" content="2018-04-26 11:12:33 +0200" />
+    <meta name="modified" content="2018-04-26 15:27:59 +0200" />
     <meta name="tags" content="pub, db, postgresql, vapor, swift, ddl"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -30,6 +30,43 @@
       <article>
        <h1>Adding Foreign Keys to a Database in Vapor</h1>
 <p>Foreign key constraints describe a link between two tables.</p>
+<p>Example:</p>
+<pre><code class="code-multiline highlight"><span class="kd">final</span> <span class="kd">class</span> <span class="kt">Technique</span><span class="p">:</span> <span class="kt">Codable</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">id</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">?</span>
+  <span class="k">let</span> <span class="nv">name</span> <span class="p">:</span> <span class="kt">String</span>
+  <span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span>
+  <span class="k">var</span> <span class="nv">heatID</span><span class="p">:</span> <span class="kt">Heat</span><span class="o">.</span><span class="kt">ID</span>
+  
+  <span class="nf">init</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">heatID</span><span class="p">:</span> <span class="kt">Heat</span><span class="o">.</span><span class="kt">ID</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">heatID</span> <span class="o">=</span> <span class="n">heatID</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<br>
+<p>Here the <code class="code-inline"></code><code class="code-inline">Technique</code><code class="code-inline"></code> model needs a <code class="code-inline"></code><code class="code-inline">Heat</code><code class="code-inline"></code> ID.</p>
+<br>
+<p>To add referential integrity, we need to conform to <code class="code-inline"></code><code class="code-inline">Migrations</code><code class="code-inline"></code> protocol:</p>
+<br>
+<pre><code class="code-multiline highlight"><span class="kd">extension</span> <span class="kt">Technique</span> <span class="p">:</span> <span class="kt">Migration</span> <span class="p">{</span>
+  
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">prepare</span><span class="p">(</span><span class="n">on</span> <span class="nv">connection</span><span class="p">:</span> <span class="kt">PostgreSQLConnection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Database</span><span class="o">.</span><span class="nf">create</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">on</span><span class="p">:</span> <span class="n">connection</span><span class="p">)</span> <span class="p">{</span> <span class="n">builder</span> <span class="k">in</span>
+      
+      <span class="k">try</span> <span class="nf">addProperties</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="n">builder</span><span class="p">)</span>
+      
+      <span class="c1">// Add FOREIGN KEY reference, with ON UPDATE/DELETE CASCADE actions</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">addReference</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="n">heatID</span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="p">\</span><span class="kt">Heat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nv">actions</span><span class="p">:</span> <span class="o">.</span><span class="n">update</span><span class="p">)</span>
+      
+      <span class="c1">// make name UNIQUE and indexed</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">addIndex</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nv">isUnique</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>In the above example the relationship is one<s>to</s>many between <code class="code-inline"></code><code class="code-inline">Heat</code><code class="code-inline"></code> and <code class="code-inline"></code><code class="code-inline">Technique</code><code class="code-inline"></code>.</p>
+<p>Heat ↤⇉ Technique</p>
 <br>
 <p>Prev: <a href="/Adding%20Indexes%20and%20Constraints%20to%20a%20Database%20in%20Vapor/">Adding Indexes and Constraints to a Database in Vapor</a></p>
 <p>Next:  <a href="/Pre-populating%20a%20Database%20with%20Data%20in%20Vapor/">Pre-populating a Database with Data in Vapor</a></p>

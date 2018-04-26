@@ -5,8 +5,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-04-26 10:57:01 +0200" />
-    <meta name="modified" content="2018-04-26 13:56:10 +0200" />
-    <meta name="tags" content="pub, db, postgresql, vapor, swift, ddl"/>
+    <meta name="modified" content="2018-04-26 14:00:17 +0200" />
+    <meta name="tags" content="pub, db, postgresql, vapor, swift, ddl, migration"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
   <body>
@@ -25,6 +25,8 @@
           <a href="/tag/swift/"># swift</a>
         
           <a href="/tag/ddl/"># ddl</a>
+        
+          <a href="/tag/migration/"># migration</a>
         
       </nav> -->
       <article>
@@ -102,12 +104,23 @@
 <br>
 <p>Just make sure that the model object <code class="code-inline"></code><code class="code-inline">Form</code><code class="code-inline"></code> here, is added to the migrations before the <code class="code-inline"></code><code class="code-inline">PopulateForms</code><code class="code-inline"></code>.</p>
 <br>
+<p>When you run your app, you will see the migrations taking place, in Xcode’s console:</p>
+<pre><code class="code-multiline highlight">[ INFO ] Migrating 'psql' database (FluentProvider.swift:28)
+[ INFO ] Preparing migration 'Tip' (MigrationContainer.swift:50)
+[ INFO ] Preparing migration 'Season' (MigrationContainer.swift:50)
+[ INFO ] Preparing migration 'Form' (MigrationContainer.swift:50)
+[ INFO ] Preparing migration 'PopulateForms' (MigrationContainer.swift:50)
+[ INFO ] Migrations complete (FluentProvider.swift:32)
+Running default command: /Users/mmj/Developer/me/vap/tastee/DerivedData/tastee/Build/Products/Debug/Run serve
+Server starting on http://localhost:8080
+</code></pre>
+<br>
 <p>Prev:  <a href="/Adding%20Foreign%20Keys%20to%20a%20Database%20in%20Vapor/">Adding Foreign Keys to a Database in Vapor</a></p>
 <p>Next:</p>
 <br>
 <p><a href="/Vapor%20%203%20Tutorial/">Vapor 3 Tutorial  Start</a></p>
 <br>
-<p>&emsp;<a href="../tag/pub/" class="hashtag">#pub</a> <a href="../tag/db/" class="hashtag">#db</a> <a href="../tag/postgresql/" class="hashtag">#postgresql</a> <a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/swift/" class="hashtag">#swift</a> <a href="../tag/ddl/" class="hashtag">#ddl</a></p>
+<p>&emsp;<a href="../tag/pub/" class="hashtag">#pub</a> <a href="../tag/db/" class="hashtag">#db</a> <a href="../tag/postgresql/" class="hashtag">#postgresql</a> <a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/swift/" class="hashtag">#swift</a> <a href="../tag/ddl/" class="hashtag">#ddl</a> <a href="../tag/migration/" class="hashtag">#migration</a></p>
 
      </article>
     </main>
