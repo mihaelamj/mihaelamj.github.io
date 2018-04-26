@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Adding Indexes and Constraints to a Database in Vapor</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created" content="2018-04-26 10:41:14 +0200" />
+    <meta name="modified" content="2018-04-26 10:51:02 +0200" />
+    <meta name="tags" content="pub, db, postgresql, vapor, swift, ddl"/>
+    <link rel="stylesheet" href="/default.css" type="text/css">
+  </head>
+  <body>
+    <main class="note-wrapper">
+      <!-- <nav>
+        <a href="/">#</a>
+        
+          <a href="/tag/pub/"># pub</a>
+        
+          <a href="/tag/db/"># db</a>
+        
+          <a href="/tag/postgresql/"># postgresql</a>
+        
+          <a href="/tag/vapor/"># vapor</a>
+        
+          <a href="/tag/swift/"># swift</a>
+        
+          <a href="/tag/ddl/"># ddl</a>
+        
+      </nav> -->
+      <article>
+       <h1>Adding Indexes and Constraints to a Database in Vapor</h1>
+<p>DDL definitions for model calluses are to be done in <code class="code-inline"></code><code class="code-inline">Migration</code><code class="code-inline"></code> extension. </p>
+<p>There is a <code class="code-inline"></code><code class="code-inline">prepare</code><code class="code-inline"></code> function for that purpose.</p>
+<br>
+<h2>Add Index to a field</h2>
+<pre><code class="code-multiline highlight"><span class="kd">extension</span> <span class="kt">Season</span> <span class="p">:</span> <span class="kt">Migration</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">prepare</span><span class="p">(</span><span class="n">on</span> <span class="nv">connection</span><span class="p">:</span> <span class="kt">PostgreSQLConnection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Database</span><span class="o">.</span><span class="nf">create</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">on</span><span class="p">:</span> <span class="n">connection</span><span class="p">)</span> <span class="p">{</span> <span class="n">builder</span> <span class="k">in</span>
+      <span class="k">try</span> <span class="nf">addProperties</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="n">builder</span><span class="p">)</span>
+      <span class="c1">// index to a name</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">addIndex</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<br>
+<h2>Add index and a UNIQUE Constraint</h2>
+<pre><code class="code-multiline highlight"><span class="kd">extension</span> <span class="kt">Season</span> <span class="p">:</span> <span class="kt">Migration</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">prepare</span><span class="p">(</span><span class="n">on</span> <span class="nv">connection</span><span class="p">:</span> <span class="kt">PostgreSQLConnection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Database</span><span class="o">.</span><span class="nf">create</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">on</span><span class="p">:</span> <span class="n">connection</span><span class="p">)</span> <span class="p">{</span> <span class="n">builder</span> <span class="k">in</span>
+      <span class="k">try</span> <span class="nf">addProperties</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="n">builder</span><span class="p">)</span>
+      <span class="c1">// index to a name with a UNIQUE constraint</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">addIndex</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nv">isUnique</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<br>
+<h2>Add the model to a database</h2>
+<p>In the <code class="code-inline"></code><code class="code-inline">configure.swift</code><code class="code-inline"></code> add the migration for a new table for our model:</p>
+<pre><code class="code-multiline highlight">  <span class="k">var</span> <span class="nv">migrations</span> <span class="o">=</span> <span class="kt">MigrationConfig</span><span class="p">()</span>
+  <span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">model</span><span class="p">:</span> <span class="kt">Tip</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">psql</span><span class="p">)</span>
+  <span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">model</span><span class="p">:</span> <span class="kt">Season</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">psql</span><span class="p">)</span>
+  <span class="n">services</span><span class="o">.</span><span class="nf">register</span><span class="p">(</span><span class="n">migrations</span><span class="p">)</span>
+</code></pre>
+<br>
+<p><a href="../tag/pub/" class="hashtag">#pub</a> <a href="../tag/db/" class="hashtag">#db</a> <a href="../tag/postgresql/" class="hashtag">#postgresql</a> <a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/swift/" class="hashtag">#swift</a> <a href="../tag/ddl/" class="hashtag">#ddl</a></p>
+
+     </article>
+    </main>
+  </body>
+<html>
