@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-04-26 19:34:13 +0200" />
-    <meta name="modified" content="2018-04-27 19:40:17 +0200" />
+    <meta name="modified" content="2018-04-27 23:13:58 +0200" />
     <meta name="tags" content="pub, vapor, postgresql, ddl, migration, revert"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -32,7 +32,7 @@
 <p>Imagine a situation in which you prepared some migrations to pre - populate data in the database, but after a while you need to add new pre-  existing data. In the context of a cooking app, a new ingredient becomes available, and you want to add it to the existing database.</p>
 <p>Surely you can re-create the table all over again, but you want to do it in production, on a live database.</p>
 <br>
-<p>In order to do that we must first enable <code class="code-inline"></code><code class="code-inline">revert</code><code class="code-inline"></code> (there will be more in the future) Fluent command.</p>
+<p>In order to do that we must first enable <code class="code-inline"></code><code class="code-inline">revert</code>` (there will be more run time commands in the future) Fluent command.</p>
 <br>
 <p>In <code class="code-inline"></code><code class="code-inline">configure.swift</code><code class="code-inline"></code> add this code in <code class="code-inline"></code><code class="code-inline">configure</code><code class="code-inline"></code> function:</p>
 <br>

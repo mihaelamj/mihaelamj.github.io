@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-04-26 16:33:28 +0200" />
-    <meta name="modified" content="2018-04-27 23:11:12 +0200" />
+    <meta name="modified" content="2018-04-27 23:12:21 +0200" />
     <meta name="tags" content="pub, vapor, postgresql, ddl, one-to-many, many-to-one, migration, db"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -42,7 +42,7 @@
 <p>If we want to pre-populate <code class="code-inline"></code><code class="code-inline">Technique</code><code class="code-inline"></code> table, we first need to have <code class="code-inline"></code><code class="code-inline">Heat</code><code class="code-inline"></code> table populated.</p>
 <p>We also need a <code class="code-inline"></code><code class="code-inline">Heat.ID</code><code class="code-inline"></code> for each <code class="code-inline"></code><code class="code-inline">Technique</code><code class="code-inline"></code> entity.</p>
 <br>
-<p>Let’s assume that we have <code class="code-inline"></code><code class="code-inline">Heat</code><code class="code-inline"></code>  table populated, and that the <code class="code-inline"></code><code class="code-inline">Technique</code><code class="code-inline"></code> data looks something like this:</p>
+<p>Let’s assume that we have  the <code class="code-inline"></code><code class="code-inline">Heat</code><code class="code-inline"></code>  table populated, and that the <code class="code-inline"></code><code class="code-inline">Technique</code><code class="code-inline"></code> data looks something like this:</p>
 <pre><code class="code-multiline highlight">  <span class="kd">static</span> <span class="k">let</span> <span class="nv">techniques</span>  <span class="o">=</span> <span class="p">[</span>
     <span class="s">"moist"</span> <span class="p">:</span> <span class="p">[</span>
       <span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"sweat"</span><span class="p">,</span> <span class="nv">desc</span><span class="p">:</span> <span class="s">"To cook in fat without browning."</span><span class="p">),</span>
@@ -60,7 +60,7 @@
   <span class="p">]</span>
 </code></pre>
 <br>
-<ol start="1" style="counter-reset:ol 0;"><li>First we need to fetch the <code class="code-inline"></code><code class="code-inline">ID</code><code class="code-inline"></code> of <code class="code-inline"></code><code class="code-inline">Heat</code><code class="code-inline"></code> entity, by it’s name.</li></ol>
+<ol start="1" style="counter-reset:ol 0;"><li>First we need to fetch the the <code class="code-inline"></code><code class="code-inline">ID</code><code class="code-inline"></code> of <code class="code-inline"></code><code class="code-inline">Heat</code><code class="code-inline"></code> entity, by it’s name.</li></ol>
 <ol start="2" style="counter-reset:ol 1;"><li>Then insert all <code class="code-inline"></code><code class="code-inline">Technique</code><code class="code-inline"></code> entities into the database, with the <code class="code-inline"></code><code class="code-inline">Heat.ID</code><code class="code-inline"></code>.</li></ol>
 <ol start="3" style="counter-reset:ol 2;"><li>We also need to do the reverse.</li></ol>
 <br>
