@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-05-01 00:01:49 +0200" />
-    <meta name="modified" content="2018-05-01 01:16:58 +0200" />
+    <meta name="modified" content="2018-05-01 01:21:03 +0200" />
     <meta name="tags" content="postgresql., tutorial, fluent, vapor, model, migration, db, generic"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -33,9 +33,7 @@
       </nav> -->
       <article>
        <h1>Generic Migrations in Fluent</h1>
-<p>So we pre-populated our database with initial data in previous two tips.</p>
-<p>We added some simple data in <a href="/Pre-populating%20Related%20Tables%20in%20Vapor/">Pre-populating a Database with Data in Vapor](/Pre-populating%20a%20Database%20with%20Data%20in%20Vapor/). And even added related data in [Pre-populating Related Tables in Vapor</a>.</p>
-<p>That’s fine, but it is all related to <a href="../tag/postgresql./" class="hashtag">#postgresql.</a></p>
+<p>So we pre-populated our database with initial data in previous two tips and even added related data. That’s fine, but it is all related to <a href="../tag/postgresql./" class="hashtag">#postgresql.</a></p>
 <p>What if we wanted to make it work with all the databases that <code class="code-inline"></code><code class="code-inline">Vapor</code><code class="code-inline"></code> supports.</p>
 <p>Well in that case we need a <code class="code-inline"></code><code class="code-inline">Generic Migration</code><code class="code-inline"></code>.</p>
 <br>
@@ -132,8 +130,8 @@
     <span class="p">}</span>
   <span class="p">}</span>
 </code></pre>
-<p>Taken from:</p>
-<p>https:<i>/github.com</i>vapor<i>fluent</i>blob<i>7e5b7f69b88c018fe7b07293e3fc284cbb9060be</i>Sources<i>FluentBenchmark</i>Toy.swift</p>
+<br>
+<p><a href="https://github.com/vapor/fluent/blob/7e5b7f69b88c018fe7b07293e3fc284cbb9060be/Sources/FluentBenchmark/Toy.swift">Taken from</a></p>
 <br>
 <p>Prev:  <a href="/Pre-populating%20Related%20Tables%20in%20Vapor/">Pre-populating Related Tables in Vapor</a></p>
 <p>Next:  <a href="/Revert%20Last%20Migration/">Revert Last Migration</a></p>
