@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-04-29 16:24:08 +0200" />
-    <meta name="modified" content="2018-04-30 22:58:42 +0200" />
+    <meta name="modified" content="2018-04-30 23:02:06 +0200" />
     <meta name="tags" content="pub, swift, controller, vapor, model, one-to-many, many-to-one"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -67,6 +67,8 @@
 <h3>Model </h3>
 <p>In model file <code class="code-inline"></code><code class="code-inline">Continent.swift</code><code class="code-inline"></code></p>
 <br>
+<p>See  <a href="/Parent%20-%20Child%20Relationships%20in%20Model%20Classes/">Parent - Child Relationships in Model Classes</a>.</p>
+<br>
 <pre><code class="code-multiline highlight"><span class="c1">//Continent ↤⇉ Country</span>
 <span class="kd">extension</span> <span class="kt">Continent</span> <span class="p">{</span>
   <span class="k">var</span> <span class="nv">countries</span><span class="p">:</span> <span class="kt">Children</span><span class="o">&lt;</span><span class="kt">Continent</span><span class="p">,</span> <span class="kt">Country</span><span class="o">&gt;</span> <span class="p">{</span>
@@ -112,7 +114,10 @@
   <span class="p">}</span>
 </code></pre>
 <br>
+<p>Prev: <a href="/Parent%20-%20Child%20Relationships%20in%20Model%20Classes/">Parent - Child Relationships in Model Classes</a></p>
+<p>Next:   </p>
 <br>
+<p><a href="/Vapor%20%203%20Tutorial/">Vapor 3 Tutorial  Start</a></p>
 <br>
 <br>
 <p><a href="../tag/pub/" class="hashtag">#pub</a> <a href="../tag/swift/" class="hashtag">#swift</a> <a href="../tag/controller/" class="hashtag">#controller</a> <a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/model/" class="hashtag">#model</a>  <a href="../tag/one-to-many/" class="hashtag">#one-to-many</a> <a href="../tag/many-to-one/" class="hashtag">#many-to-one</a> </p>
