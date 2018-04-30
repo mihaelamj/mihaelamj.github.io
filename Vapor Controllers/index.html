@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-04-29 16:24:08 +0200" />
-    <meta name="modified" content="2018-04-30 23:02:06 +0200" />
+    <meta name="modified" content="2018-04-30 23:07:49 +0200" />
     <meta name="tags" content="pub, swift, controller, vapor, model, one-to-many, many-to-one"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -93,6 +93,10 @@
 <br>
 <h2>Getting parent item</h2>
 <h3>Model</h3>
+<p>In model file <code class="code-inline"></code><code class="code-inline">Country.swift</code><code class="code-inline"></code></p>
+<br>
+<p>See  <a href="/Parent%20-%20Child%20Relationships%20in%20Model%20Classes/">Parent - Child Relationships in Model Classes</a>.</p>
+<br>
 <pre><code class="code-multiline highlight"><span class="c1">// Country ⇇↦  Continent</span>
 <span class="kd">extension</span> <span class="kt">Country</span> <span class="p">{</span>
   <span class="k">var</span> <span class="nv">continent</span><span class="p">:</span> <span class="kt">Parent</span><span class="o">&lt;</span><span class="kt">Country</span><span class="p">,</span> <span class="kt">Continent</span><span class="o">&gt;</span> <span class="p">{</span>
