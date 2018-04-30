@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-05-01 00:01:49 +0200" />
-    <meta name="modified" content="2018-05-01 00:47:59 +0200" />
+    <meta name="modified" content="2018-05-01 01:11:15 +0200" />
     <meta name="tags" content="postgresql., tutorial, fluent, vapor, model, migration, db, generic"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -120,6 +120,15 @@
 
 <span class="p">}</span>
 </code></pre>
+<br>
+<h2>Run your migration</h2>
+<p>In <code class="code-inline"></code><code class="code-inline">configure.swift</code><code class="code-inline"></code> add the code:</p>
+<pre><code class="code-multiline highlight"> <span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">model</span><span class="p">:</span> <span class="kt">TestModel</span><span class="o">&lt;</span><span class="kt">PostgreSQLDatabase</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">psql</span><span class="p">)</span>
+  <span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">TestModelMigration</span><span class="o">&lt;</span><span class="kt">PostgreSQLDatabase</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">psql</span><span class="p">)</span>
+</code></pre>
+<br>
+<p>And the data is added:</p>
+<p><img src="assets/test_data.png"></p>
 <br>
 <p>Prev:  <a href="/Pre-populating%20Related%20Tables%20in%20Vapor/">Pre-populating Related Tables in Vapor</a></p>
 <p>Next:  <a href="/Revert%20Last%20Migration/">Revert Last Migration</a></p>
