@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vapor Controllers</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created" content="2018-04-29 16:24:08 +0200" />
+    <meta name="modified" content="2018-04-30 22:58:42 +0200" />
+    <meta name="tags" content="pub, swift, controller, vapor, model, one-to-many, many-to-one"/>
+    <link rel="stylesheet" href="/default.css" type="text/css">
+  </head>
+  <body>
+    <main class="note-wrapper">
+      <!-- <nav>
+        <a href="/">#</a>
+        
+          <a href="/tag/pub/"># pub</a>
+        
+          <a href="/tag/swift/"># swift</a>
+        
+          <a href="/tag/controller/"># controller</a>
+        
+          <a href="/tag/vapor/"># vapor</a>
+        
+          <a href="/tag/model/"># model</a>
+        
+          <a href="/tag/one-to-many/"># one-to-many</a>
+        
+          <a href="/tag/many-to-one/"># many-to-one</a>
+        
+      </nav> -->
+      <article>
+       <h1>Vapor Controllers</h1>
+<p>Controllers in Vapour are used to make grouped routes, usually one controller per model, but that is not a requirement.</p>
+<br>
+<p>To be able to send parameters, the controller’s model must conform to  <code class="code-inline"></code><code class="code-inline">Parameter</code><code class="code-inline"></code> protocol.</p>
+<br>
+<pre><code class="code-multiline highlight"><span class="kd">extension</span> <span class="kt">Season</span> <span class="p">:</span> <span class="kt">Parameter</span><span class="p">{}</span>
+</code></pre>
+<p>I usually put that extension in the model’s <code class="code-inline"></code><code class="code-inline">.swift</code><code class="code-inline"></code> file, and not the controllers.</p>
+<br>
+<h2>Example controller</h2>
+<pre><code class="code-multiline highlight"><span class="kd">import</span> <span class="kt">Vapor</span>
+<span class="kd">import</span> <span class="kt">Fluent</span>
+
+<span class="kd">struct</span> <span class="kt">SeasonsController</span><span class="p">:</span> <span class="kt">RouteCollection</span> <span class="p">{</span>
+  
+  <span class="kd">func</span> <span class="nf">boot</span><span class="p">(</span><span class="nv">router</span><span class="p">:</span> <span class="kt">Router</span><span class="p">)</span> <span class="k">throws</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">aRoute</span> <span class="o">=</span> <span class="n">router</span><span class="o">.</span><span class="nf">grouped</span><span class="p">(</span><span class="s">"api"</span><span class="p">,</span> <span class="s">"seasons"</span><span class="p">)</span>
+    <span class="c1">//GET /api/seasons</span>
+    <span class="n">aRoute</span><span class="o">.</span><span class="nf">get</span><span class="p">(</span><span class="nv">use</span><span class="p">:</span> <span class="n">getAllHandler</span><span class="p">)</span>
+    <span class="c1">//GET /api/seasons/:ID</span>
+    <span class="n">aRoute</span><span class="o">.</span><span class="nf">get</span><span class="p">(</span><span class="kt">Season</span><span class="o">.</span><span class="n">parameter</span><span class="p">,</span> <span class="nv">use</span><span class="p">:</span> <span class="n">getOneHandler</span><span class="p">)</span>
+  <span class="p">}</span>
+  
+  <span class="kd">func</span> <span class="nf">getAllHandler</span><span class="p">(</span><span class="n">_</span> <span class="nv">req</span><span class="p">:</span> <span class="kt">Request</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">Season</span><span class="p">]</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Season</span><span class="o">.</span><span class="nf">query</span><span class="p">(</span><span class="nv">on</span><span class="p">:</span> <span class="n">req</span><span class="p">)</span><span class="o">.</span><span class="nf">all</span><span class="p">()</span>
+  <span class="p">}</span>
+  
+  <span class="kd">func</span> <span class="nf">getOneHandler</span><span class="p">(</span><span class="n">_</span> <span class="nv">req</span><span class="p">:</span> <span class="kt">Request</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Season</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">try</span> <span class="n">req</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="nf">next</span><span class="p">(</span><span class="kt">Season</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<br>
+<h2>Getting Children items</h2>
+<h3>Model </h3>
+<p>In model file <code class="code-inline"></code><code class="code-inline">Continent.swift</code><code class="code-inline"></code></p>
+<br>
+<pre><code class="code-multiline highlight"><span class="c1">//Continent ↤⇉ Country</span>
+<span class="kd">extension</span> <span class="kt">Continent</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">countries</span><span class="p">:</span> <span class="kt">Children</span><span class="o">&lt;</span><span class="kt">Continent</span><span class="p">,</span> <span class="kt">Country</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">children</span><span class="p">(\</span><span class="o">.</span><span class="n">continentID</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<br>
+<br>
+<h3>Route</h3>
+<pre><code class="code-multiline highlight"><span class="c1">//GET /api/continents/:continentID/countries</span>
+<span class="n">aRoute</span><span class="o">.</span><span class="nf">get</span><span class="p">(</span><span class="kt">Continent</span><span class="o">.</span><span class="n">parameter</span><span class="p">,</span> <span class="s">"countries"</span><span class="p">,</span> <span class="nv">use</span><span class="p">:</span> <span class="n">getCountriesHandler</span><span class="p">)</span>
+</code></pre>
+<br>
+<h3>Method</h3>
+<pre><code class="code-multiline highlight"><span class="kd">func</span> <span class="nf">getCountriesHandler</span><span class="p">(</span><span class="n">_</span> <span class="nv">req</span><span class="p">:</span> <span class="kt">Request</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">Country</span><span class="p">]</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">try</span> <span class="n">req</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="nf">next</span><span class="p">(</span><span class="kt">Continent</span><span class="o">.</span><span class="k">self</span><span class="p">)</span><span class="o">.</span><span class="nf">flatMap</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="p">[</span><span class="kt">Country</span><span class="p">]</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">continent</span> <span class="k">in</span>
+      <span class="k">return</span> <span class="k">try</span> <span class="n">continent</span><span class="o">.</span><span class="n">countries</span><span class="o">.</span><span class="nf">query</span><span class="p">(</span><span class="nv">on</span><span class="p">:</span> <span class="n">req</span><span class="p">)</span><span class="o">.</span><span class="nf">all</span><span class="p">()</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+</code></pre>
+<br>
+<h2>Getting parent item</h2>
+<h3>Model</h3>
+<pre><code class="code-multiline highlight"><span class="c1">// Country ⇇↦  Continent</span>
+<span class="kd">extension</span> <span class="kt">Country</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">continent</span><span class="p">:</span> <span class="kt">Parent</span><span class="o">&lt;</span><span class="kt">Country</span><span class="p">,</span> <span class="kt">Continent</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">parent</span><span class="p">(\</span><span class="o">.</span><span class="n">continentID</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<br>
+<h3>Route</h3>
+<pre><code class="code-multiline highlight"><span class="c1">//GET /api/countries/:ID/continent</span>
+<span class="n">aRoute</span><span class="o">.</span><span class="nf">get</span><span class="p">(</span><span class="kt">Country</span><span class="o">.</span><span class="n">parameter</span><span class="p">,</span> <span class="s">"continent"</span><span class="p">,</span> <span class="nv">use</span><span class="p">:</span> <span class="n">getContinentHandler</span><span class="p">)</span>
+</code></pre>
+<br>
+<h3>Method</h3>
+<pre><code class="code-multiline highlight"><span class="kd">func</span> <span class="nf">getContinentHandler</span><span class="p">(</span><span class="n">_</span> <span class="nv">req</span><span class="p">:</span> <span class="kt">Request</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Continent</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">try</span> <span class="n">req</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="nf">next</span><span class="p">(</span><span class="kt">Country</span><span class="o">.</span><span class="k">self</span><span class="p">)</span><span class="o">.</span><span class="nf">flatMap</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="kt">Continent</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">country</span> <span class="k">in</span>
+      <span class="k">return</span> <span class="k">try</span> <span class="n">country</span><span class="o">.</span><span class="n">continent</span><span class="o">.</span><span class="nf">get</span><span class="p">(</span><span class="nv">on</span><span class="p">:</span> <span class="n">req</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+</code></pre>
+<br>
+<br>
+<br>
+<br>
+<p><a href="../tag/pub/" class="hashtag">#pub</a> <a href="../tag/swift/" class="hashtag">#swift</a> <a href="../tag/controller/" class="hashtag">#controller</a> <a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/model/" class="hashtag">#model</a>  <a href="../tag/one-to-many/" class="hashtag">#one-to-many</a> <a href="../tag/many-to-one/" class="hashtag">#many-to-one</a> </p>
+
+     </article>
+    </main>
+  </body>
+<html>
