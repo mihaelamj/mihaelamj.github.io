@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-05-01 00:01:49 +0200" />
-    <meta name="modified" content="2018-05-01 15:52:15 +0200" />
+    <meta name="modified" content="2018-05-01 19:05:47 +0200" />
     <meta name="tags" content="postgresql., tutorial, fluent, vapor, model, migration, db, generic"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -115,20 +115,6 @@
 <p>And the data is added:</p>
 <p><img src="assets/test_data.png"></p>
 <br>
-<h2>Open questions:</h2>
-<ol start="1" style="counter-reset:ol 0;"><li>How do I access <code class="code-inline"></code><code class="code-inline">builder</code><code class="code-inline"></code> to add indexes and constraints?</li></ol>
-<pre><code class="code-multiline highlight">  <span class="c1">//I tried adding indexes, but just adding this function gives me Swift error:</span>
-  <span class="c1">//Command failed due to signal: Segmentation fault: 11</span>
-  
-  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">makeFieldsAndIndexes</span><span class="p">(</span><span class="n">on</span> <span class="nv">connection</span><span class="p">:</span> <span class="kt">Database</span><span class="o">.</span><span class="kt">Connection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="kt">Database</span><span class="o">.</span><span class="nf">create</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">on</span><span class="p">:</span> <span class="n">connection</span><span class="p">)</span> <span class="p">{</span> <span class="n">builder</span> <span class="k">in</span>
-      <span class="k">try</span> <span class="nf">addProperties</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="n">builder</span><span class="p">)</span>
-      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">addIndex</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nv">isUnique</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-</code></pre>
-<br>
-<p><a href="https://github.com/vapor/fluent/blob/7e5b7f69b88c018fe7b07293e3fc284cbb9060be/Sources/FluentBenchmark/Toy.swift">Taken from ../FluentBenchmark/Toy.swift</a></p>
 <br>
 <p>Prev:  <a href="/Pre-populating%20Related%20Tables%20in%20Vapor/">Pre-populating Related Tables in Vapor</a></p>
 <p>Next:  <a href="/Revert%20Last%20Migration/">Revert Last Migration</a></p>
