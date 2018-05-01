@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Making a New Vapor Package</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created" content="2018-05-01 20:34:11 +0200" />
+    <meta name="modified" content="2018-05-01 21:04:15 +0200" />
+    <meta name="tags" content="pub, package, vapor, swift, spm"/>
+    <link rel="stylesheet" href="/default.css" type="text/css">
+  </head>
+  <body>
+    <main class="note-wrapper">
+      <!-- <nav>
+        <a href="/">#</a>
+        
+          <a href="/tag/pub/"># pub</a>
+        
+          <a href="/tag/package/"># package</a>
+        
+          <a href="/tag/vapor/"># vapor</a>
+        
+          <a href="/tag/swift/"># swift</a>
+        
+          <a href="/tag/spm/"># spm</a>
+        
+      </nav> -->
+      <article>
+       <h1>Making a New Vapor Package</h1>
+<h2>Use Swift Package Manager</h2>
+<pre><code class="code-multiline highlight">mkdir MyPackage
+cd MyPackage
+</code></pre>
+<br>
+<h2>Initialize a Package</h2>
+<pre><code class="code-multiline highlight">swift package init --type library
+</code></pre>
+<h2>Add Dependencies</h2>
+<p>I’m making a generic Fluent Models, so I only need <code class="code-inline"></code><code class="code-inline">Vapor</code><code class="code-inline"></code> and <code class="code-inline"></code><code class="code-inline">Fluent</code><code class="code-inline"></code>.</p>
+<pre><code class="code-multiline highlight">dependencies: [
+      .package(url: "https://github.com/vapor/vapor.git", from: "3.0.0-rc.2"),
+      .package(url: "https://github.com/vapor/fluent.git", from: "3.0.0-rc.2")
+    ],
+</code></pre>
+<br>
+<h2>Add Targets</h2>
+<pre><code class="code-multiline highlight">targets: [
+        .target(
+            name: "VaporCountries",
+            dependencies: [
+              "Vapor",
+              "Fluent"
+          ]),
+        .testTarget(
+            name: "VaporCountriesTests",
+            dependencies: [
+              "VaporCountries"
+          ]),
+    ]
+</code></pre>
+<br>
+<h2>Add Your Swift Files</h2>
+<br>
+<h2>Tag your Release</h2>
+<p>In command like :</p>
+<pre><code class="code-multiline highlight">git tag 0.0.0
+git push --tags
+</code></pre>
+<br>
+<p>Tag <code class="code-inline"></code><code class="code-inline">0.0.0 </code><code class="code-inline"></code> is used, in Vapour community, for testing.</p>
+<br>
+<p>Prev: </p>
+<p>Next:  </p>
+<br>
+<p><a href="/Vapor%20%203%20Tutorial/">Vapor 3 Tutorial  Start</a></p>
+<br>
+<p><a href="../tag/pub/" class="hashtag">#pub</a> <a href="../tag/package/" class="hashtag">#package</a> <a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/swift/" class="hashtag">#swift</a> <a href="../tag/spm/" class="hashtag">#spm</a></p>
+
+     </article>
+    </main>
+  </body>
+<html>
