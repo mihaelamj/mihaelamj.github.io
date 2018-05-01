@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-05-01 00:01:49 +0200" />
-    <meta name="modified" content="2018-05-01 01:24:10 +0200" />
+    <meta name="modified" content="2018-05-01 15:52:15 +0200" />
     <meta name="tags" content="postgresql., tutorial, fluent, vapor, model, migration, db, generic"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -44,7 +44,7 @@
 <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">TestModel</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">Model</span> <span class="k">where</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">QuerySupporting</span> <span class="p">{</span>
 
   <span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Database</span> <span class="o">=</span> <span class="kt">D</span>
-  <span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">ID</span> <span class="o">=</span> <span class="kt">UUID</span>
+  <span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">ID</span> <span class="o">=</span> <span class="kt">Int</span>
   <span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">idKey</span><span class="p">:</span> <span class="kt">IDKey</span> <span class="p">{</span> <span class="k">return</span> <span class="p">\</span><span class="o">.</span><span class="n">id</span> <span class="p">}</span>
   <span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">entity</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
     <span class="k">return</span> <span class="s">"testModel"</span>
@@ -54,7 +54,7 @@
     <span class="k">return</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="s">"test"</span><span class="p">)</span>
   <span class="p">}</span>
   
-  <span class="k">var</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">UUID</span><span class="p">?</span> <span class="c1">//How can I make id an Int?</span>
+  <span class="k">var</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span>
   <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
   <span class="k">var</span> <span class="nv">num</span> <span class="p">:</span> <span class="kt">Int</span>
   
@@ -116,8 +116,7 @@
 <p><img src="assets/test_data.png"></p>
 <br>
 <h2>Open questions:</h2>
-<ol start="1" style="counter-reset:ol 0;"><li>How can I add a model who’s ID is Int</li></ol>
-<ol start="2" style="counter-reset:ol 1;"><li>How do I access <code class="code-inline"></code><code class="code-inline">builder</code><code class="code-inline"></code> to add indexes and constraints?</li></ol>
+<ol start="1" style="counter-reset:ol 0;"><li>How do I access <code class="code-inline"></code><code class="code-inline">builder</code><code class="code-inline"></code> to add indexes and constraints?</li></ol>
 <pre><code class="code-multiline highlight">  <span class="c1">//I tried adding indexes, but just adding this function gives me Swift error:</span>
   <span class="c1">//Command failed due to signal: Segmentation fault: 11</span>
   
