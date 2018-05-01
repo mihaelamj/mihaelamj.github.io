@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-05-01 20:34:11 +0200" />
-    <meta name="modified" content="2018-05-01 21:13:06 +0200" />
+    <meta name="modified" content="2018-05-01 23:01:24 +0200" />
     <meta name="tags" content="pub, package, vapor, swift, spm"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -61,7 +61,9 @@ cd MyPackage
 </code></pre>
 <br>
 <h2>Add Your Swift Files</h2>
-<p>TBD</p>
+<p>Mine looks like this:</p>
+<p><img src="assets/VaporPackage.png"></p>
+<br>
 <br>
 <h2>Tag your Release</h2>
 <pre><code class="code-multiline highlight">git tag 0.0.0
@@ -69,6 +71,24 @@ git push --tags
 </code></pre>
 <br>
 <p>Tag <code class="code-inline"></code><code class="code-inline">0.0.0 </code><code class="code-inline"></code> is used, in Vapour community, for testing.</p>
+<br>
+<h2>Make sure that anything that you export is marked as public</h2>
+<pre><code class="code-multiline highlight"><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">CountryMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">Migration</span> <span class="k">where</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">QuerySupporting</span> <span class="o">&amp;</span> <span class="kt">SchemaSupporting</span> <span class="o">&amp;</span> <span class="kt">IndexSupporting</span> <span class="o">&amp;</span> <span class="kt">ReferenceSupporting</span> <span class="p">{</span>
+  
+  <span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Database</span> <span class="o">=</span> <span class="kt">D</span>
+</code></pre>
+<br>
+<h2>Make Example Project</h2>
+<p>My first Vapor package is (It adds all countries and continents to any Vapor supported database):</p>
+<p>https:<i>/github.com</i>mihaelamj/VaporCountries</p>
+<br>
+<p>It’s usage:</p>
+<pre><code class="code-multiline highlight"><span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">ContinentMigration</span><span class="o">&lt;</span><span class="kt">SQLiteDatabase</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">sqlite</span><span class="p">)</span>
+<span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">CountryMigration</span><span class="o">&lt;</span><span class="kt">SQLiteDatabase</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">sqlite</span><span class="p">)</span>
+</code></pre>
+<br>
+<p>Example project:</p>
+<p>https:<i>/github.com</i>mihaelamj/TestVaporCountries</p>
 <br>
 <p>Prev:  <a href="/Generic%20Pre-populated%20Models%20in%20Fluent/">Generic Pre-populated Models in Fluent</a></p>
 <p>Next:  <a href="/Parent-Child%20relationships%20in%20Generic%20Fluent%20Models/">Parent-Child relationships in Generic Fluent Models</a></p>
