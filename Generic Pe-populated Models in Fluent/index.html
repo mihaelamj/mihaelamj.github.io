@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Generic Pe-populated Models in Fluent</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created" content="2018-05-01 19:04:03 +0200" />
+    <meta name="modified" content="2018-05-01 19:23:35 +0200" />
+    <meta name="tags" content="tutorial, fluent, vapor, model, migration, db, generic, one-to-many, many-to-one"/>
+    <link rel="stylesheet" href="/default.css" type="text/css">
+  </head>
+  <body>
+    <main class="note-wrapper">
+      <!-- <nav>
+        <a href="/">#</a>
+        
+          <a href="/tag/tutorial/"># tutorial</a>
+        
+          <a href="/tag/fluent/"># fluent</a>
+        
+          <a href="/tag/vapor/"># vapor</a>
+        
+          <a href="/tag/model/"># model</a>
+        
+          <a href="/tag/migration/"># migration</a>
+        
+          <a href="/tag/db/"># db</a>
+        
+          <a href="/tag/generic/"># generic</a>
+        
+          <a href="/tag/one-to-many/"># one-to-many</a>
+        
+          <a href="/tag/many-to-one/"># many-to-one</a>
+        
+      </nav> -->
+      <article>
+       <h1>Generic Pe-populated Models in Fluent</h1>
+<p>Here’s another example of a <code class="code-inline"></code><code class="code-inline">Model</code><code class="code-inline"></code> that is DB<s>generic, but also comes with pre</s>populated data.</p>
+<br>
+<p>Let’s use the example of <code class="code-inline"></code><code class="code-inline">Continent  ↤⇉ Country</code><code class="code-inline"></code>. </p>
+<p>That is a <code class="code-inline"></code><code class="code-inline"> one - to many </code><code class="code-inline"></code> relationship, where for one <code class="code-inline"></code><code class="code-inline">Continent</code><code class="code-inline"></code> there are multiple <code class="code-inline"></code><code class="code-inline">Countries</code><code class="code-inline"></code>. And not vice-versa.</p>
+<br>
+<h2>Define Generic Model</h2>
+<pre><code class="code-multiline highlight"><span class="kd">import</span> <span class="kt">Async</span>
+<span class="kd">import</span> <span class="kt">Fluent</span>
+<span class="kd">import</span> <span class="kt">Foundation</span>
+
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">Continent</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">Model</span> <span class="k">where</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">QuerySupporting</span><span class="p">,</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">IndexSupporting</span> <span class="p">{</span>
+  
+  <span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Database</span> <span class="o">=</span> <span class="kt">D</span>
+  <span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">ID</span> <span class="o">=</span> <span class="kt">Int</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">idKey</span><span class="p">:</span> <span class="kt">IDKey</span> <span class="p">{</span> <span class="k">return</span> <span class="p">\</span><span class="o">.</span><span class="n">id</span> <span class="p">}</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">entity</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s">"continent"</span>
+  <span class="p">}</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">database</span><span class="p">:</span> <span class="kt">DatabaseIdentifier</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="s">"continent"</span><span class="p">)</span>
+  <span class="p">}</span>
+  
+  <span class="k">var</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span>
+  <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
+  <span class="k">var</span> <span class="nv">alpha2</span><span class="p">:</span> <span class="kt">String</span>
+  
+  <span class="nf">init</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">alpha2</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">alpha2</span> <span class="o">=</span> <span class="n">alpha2</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">extension</span> <span class="kt">Continent</span><span class="p">:</span> <span class="kt">Migration</span> <span class="k">where</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">QuerySupporting</span><span class="p">,</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">IndexSupporting</span> <span class="p">{</span> <span class="p">}</span>
+</code></pre>
+<br>
+<h2>Define Static Data</h2>
+<pre><code class="code-multiline highlight"><span class="k">let</span> <span class="nv">continents</span> <span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">[</span><span class="s">"name"</span><span class="p">:</span> <span class="s">"Africa"</span><span class="p">,</span> <span class="s">"alpha2"</span><span class="p">:</span> <span class="s">"AF"</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">"name"</span><span class="p">:</span> <span class="s">"Antarctica"</span><span class="p">,</span> <span class="s">"alpha2"</span><span class="p">:</span> <span class="s">"AN"</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">"name"</span><span class="p">:</span> <span class="s">"Asia"</span><span class="p">,</span> <span class="s">"alpha2"</span><span class="p">:</span> <span class="s">"AS"</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">"name"</span><span class="p">:</span> <span class="s">"Europe"</span><span class="p">,</span> <span class="s">"alpha2"</span><span class="p">:</span> <span class="s">"EU"</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">"name"</span><span class="p">:</span> <span class="s">"North America"</span><span class="p">,</span> <span class="s">"alpha2"</span><span class="p">:</span> <span class="s">"NA"</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">"name"</span><span class="p">:</span> <span class="s">"Oceania"</span><span class="p">,</span> <span class="s">"alpha2"</span><span class="p">:</span> <span class="s">"OC"</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">"name"</span><span class="p">:</span> <span class="s">"South America"</span><span class="p">,</span> <span class="s">"alpha2"</span><span class="p">:</span> <span class="s">"SA"</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">"name"</span><span class="p">:</span> <span class="s">"Nothing"</span><span class="p">,</span> <span class="s">"alpha2"</span><span class="p">:</span> <span class="s">"NN"</span><span class="p">]</span>
+<span class="p">]</span>
+</code></pre>
+<p>A note : generic classes cannot hold data, so define your insertable data outside.</p>
+<br>
+<h2>Define the DDL Methods for Field Definitions, Indexes and Relations</h2>
+<pre><code class="code-multiline highlight"><span class="kd">internal</span> <span class="kd">struct</span> <span class="kt">ContinentMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">Migration</span> <span class="k">where</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">QuerySupporting</span> <span class="o">&amp;</span> <span class="kt">SchemaSupporting</span> <span class="o">&amp;</span> <span class="kt">IndexSupporting</span> <span class="p">{</span>
+  <span class="kd">typealias</span> <span class="kt">Database</span> <span class="o">=</span> <span class="kt">D</span>
+  
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">prepareFields</span><span class="p">(</span><span class="n">on</span> <span class="nv">connection</span><span class="p">:</span> <span class="kt">Database</span><span class="o">.</span><span class="kt">Connection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Database</span><span class="o">.</span><span class="nf">create</span><span class="p">(</span><span class="kt">Continent</span><span class="o">&lt;</span><span class="kt">Database</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">on</span><span class="p">:</span> <span class="n">connection</span><span class="p">)</span> <span class="p">{</span> <span class="n">builder</span> <span class="k">in</span>
+      
+      <span class="c1">//add fields</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">field</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="p">\</span><span class="kt">Continent</span><span class="o">&lt;</span><span class="kt">Database</span><span class="o">&gt;.</span><span class="n">id</span><span class="p">)</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">field</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="p">\</span><span class="kt">Continent</span><span class="o">&lt;</span><span class="kt">Database</span><span class="o">&gt;.</span><span class="n">name</span><span class="p">)</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">field</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="p">\</span><span class="kt">Continent</span><span class="o">&lt;</span><span class="kt">Database</span><span class="o">&gt;.</span><span class="n">alpha2</span><span class="p">)</span>
+      
+      <span class="c1">//indexes</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">addIndex</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nv">isUnique</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">prepareInsertData</span><span class="p">(</span><span class="n">on</span> <span class="nv">connection</span><span class="p">:</span> <span class="kt">Database</span><span class="o">.</span><span class="kt">Connection</span><span class="p">)</span> <span class="o">-&gt;</span>  <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span>   <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">futures</span> <span class="p">:</span> <span class="p">[</span><span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">]</span> <span class="o">=</span> <span class="n">continents</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="n">continent</span> <span class="k">in</span>
+      <span class="k">let</span> <span class="nv">name</span> <span class="o">=</span> <span class="n">continent</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span><span class="o">!</span>
+      <span class="k">let</span> <span class="nv">alpha2</span> <span class="o">=</span> <span class="n">continent</span><span class="p">[</span><span class="s">"alpha2"</span><span class="p">]</span><span class="o">!</span>
+      <span class="k">return</span> <span class="kt">Continent</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="nv">alpha2</span><span class="p">:</span> <span class="n">alpha2</span><span class="p">)</span><span class="o">.</span><span class="nf">create</span><span class="p">(</span><span class="nv">on</span><span class="p">:</span> <span class="n">connection</span><span class="p">)</span><span class="o">.</span><span class="nf">map</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="kt">Void</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="k">return</span> <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;.</span><span class="nf">andAll</span><span class="p">(</span><span class="n">futures</span><span class="p">,</span> <span class="nv">eventLoop</span><span class="p">:</span> <span class="n">connection</span><span class="o">.</span><span class="n">eventLoop</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="o">...</span>
+<span class="p">}</span>
+</code></pre>
+<br>
+<h2>Here’s an Example for a Foreign Key Relationships</h2>
+<pre><code class="code-multiline highlight"><span class="kd">internal</span> <span class="kd">struct</span> <span class="kt">CountryMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">Migration</span> <span class="k">where</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">QuerySupporting</span> <span class="o">&amp;</span> <span class="kt">SchemaSupporting</span> <span class="o">&amp;</span> <span class="kt">IndexSupporting</span> <span class="o">&amp;</span> <span class="kt">ReferenceSupporting</span> <span class="p">{</span>
+  
+  <span class="kd">typealias</span> <span class="kt">Database</span> <span class="o">=</span> <span class="kt">D</span>
+  
+<span class="c1">//MARK: - Create Fields, Indexes and relations</span>
+  
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">prepareFields</span><span class="p">(</span><span class="n">on</span> <span class="nv">connection</span><span class="p">:</span> <span class="kt">Database</span><span class="o">.</span><span class="kt">Connection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Database</span><span class="o">.</span><span class="nf">create</span><span class="p">(</span><span class="kt">Country</span><span class="o">&lt;</span><span class="kt">Database</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">on</span><span class="p">:</span> <span class="n">connection</span><span class="p">)</span> <span class="p">{</span> <span class="n">builder</span> <span class="k">in</span>
+      
+      <span class="c1">//add fields</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">field</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="p">\</span><span class="kt">Country</span><span class="o">&lt;</span><span class="kt">Database</span><span class="o">&gt;.</span><span class="n">id</span><span class="p">)</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">field</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="p">\</span><span class="kt">Country</span><span class="o">&lt;</span><span class="kt">Database</span><span class="o">&gt;.</span><span class="n">name</span><span class="p">)</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">field</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="p">\</span><span class="kt">Country</span><span class="o">&lt;</span><span class="kt">Database</span><span class="o">&gt;.</span><span class="n">numeric</span><span class="p">)</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">field</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="p">\</span><span class="kt">Country</span><span class="o">&lt;</span><span class="kt">Database</span><span class="o">&gt;.</span><span class="n">alpha2</span><span class="p">)</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">field</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="p">\</span><span class="kt">Country</span><span class="o">&lt;</span><span class="kt">Database</span><span class="o">&gt;.</span><span class="n">alpha3</span><span class="p">)</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">field</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="p">\</span><span class="kt">Country</span><span class="o">&lt;</span><span class="kt">Database</span><span class="o">&gt;.</span><span class="n">calling</span><span class="p">)</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">field</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="p">\</span><span class="kt">Country</span><span class="o">&lt;</span><span class="kt">Database</span><span class="o">&gt;.</span><span class="n">currency</span><span class="p">)</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">field</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="p">\</span><span class="kt">Country</span><span class="o">&lt;</span><span class="kt">Database</span><span class="o">&gt;.</span><span class="n">continentID</span><span class="p">)</span>
+      
+      <span class="c1">//indexes</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">addIndex</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nv">isUnique</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">addIndex</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="n">alpha2</span><span class="p">,</span> <span class="nv">isUnique</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">addIndex</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="n">alpha3</span><span class="p">,</span> <span class="nv">isUnique</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+      
+      <span class="c1">//referential integrity - foreign key to parent</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">addReference</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="p">\</span><span class="kt">Country</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">continentID</span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="p">\</span><span class="kt">Continent</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">id</span><span class="p">,</span> <span class="nv">actions</span><span class="p">:</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">update</span><span class="p">:</span> <span class="o">.</span><span class="n">update</span><span class="p">,</span> <span class="nv">delete</span><span class="p">:</span> <span class="o">.</span><span class="n">nullify</span><span class="p">))</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="o">...</span>
+<span class="p">}</span>
+</code></pre>
+<br>
+<p>Needs to conform to <code class="code-inline"></code><code class="code-inline">ReferenceSupporting</code><code class="code-inline"></code> as well.</p>
+<br>
+<h2>Implement The required Methods: prepare and revert</h2>
+<pre><code class="code-multiline highlight">  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">prepare</span><span class="p">(</span><span class="n">on</span> <span class="nv">connection</span><span class="p">:</span> <span class="kt">Database</span><span class="o">.</span><span class="kt">Connection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{</span>
+    
+    <span class="k">let</span> <span class="nv">futureCreateFields</span> <span class="o">=</span> <span class="nf">prepareFields</span><span class="p">(</span><span class="nv">on</span><span class="p">:</span> <span class="n">connection</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">futureInsertData</span> <span class="o">=</span> <span class="nf">prepareInsertData</span><span class="p">(</span><span class="nv">on</span><span class="p">:</span> <span class="n">connection</span><span class="p">)</span>
+    
+    <span class="k">let</span> <span class="nv">allFutures</span> <span class="p">:</span> <span class="p">[</span><span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">futureCreateFields</span><span class="p">,</span> <span class="n">futureInsertData</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;.</span><span class="nf">andAll</span><span class="p">(</span><span class="n">allFutures</span><span class="p">,</span> <span class="nv">eventLoop</span><span class="p">:</span> <span class="n">connection</span><span class="o">.</span><span class="n">eventLoop</span><span class="p">)</span>
+  <span class="p">}</span>
+  
+  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">revert</span><span class="p">(</span><span class="n">on</span> <span class="nv">connection</span><span class="p">:</span> <span class="kt">Database</span><span class="o">.</span><span class="kt">Connection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">do</span> <span class="p">{</span>
+      <span class="c1">// Delete all names</span>
+      <span class="k">let</span> <span class="nv">futures</span> <span class="o">=</span> <span class="k">try</span> <span class="n">continents</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="n">continent</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="nv">alpha2</span> <span class="o">=</span> <span class="n">continent</span><span class="p">[</span><span class="s">"alpha2"</span><span class="p">]</span><span class="o">!</span>
+        <span class="k">return</span> <span class="k">try</span> <span class="kt">Continent</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="nf">query</span><span class="p">(</span><span class="nv">on</span><span class="p">:</span> <span class="n">connection</span><span class="p">)</span><span class="o">.</span><span class="nf">filter</span><span class="p">(\</span><span class="kt">Continent</span><span class="o">.</span><span class="n">alpha2</span><span class="p">,</span> <span class="o">.</span><span class="n">equals</span><span class="p">,</span> <span class="o">.</span><span class="nf">data</span><span class="p">(</span><span class="n">alpha2</span><span class="p">))</span><span class="o">.</span><span class="nf">delete</span><span class="p">()</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;.</span><span class="nf">andAll</span><span class="p">(</span><span class="n">futures</span><span class="p">,</span> <span class="nv">eventLoop</span><span class="p">:</span> <span class="n">connection</span><span class="o">.</span><span class="n">eventLoop</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">catch</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="n">connection</span><span class="o">.</span><span class="n">eventLoop</span><span class="o">.</span><span class="nf">newFailedFuture</span><span class="p">(</span><span class="nv">error</span><span class="p">:</span> <span class="n">error</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+</code></pre>
+<br>
+<h2>Add Migrations </h2>
+<p>In <code class="code-inline"></code><code class="code-inline">configure.swift</code><code class="code-inline"></code> add the code:</p>
+<br>
+<pre><code class="code-multiline highlight"><span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">ContinentMigration</span><span class="o">&lt;</span><span class="kt">SQLiteDatabase</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">sqlite</span><span class="p">)</span>
+</code></pre>
+<br>
+<p>And the migration worked:</p>
+<p><img src="assets/continents_SQLite.png"></p>
+<br>
+<br>
+<p>Prev:  <a href="/Generic%20Migrations%20in%20Fluent/">Generic Migrations in Fluent</a></p>
+<p>Next:  <a href="/Revert%20Last%20Migration/">Revert Last Migration</a></p>
+<br>
+<p><a href="/Vapor%20%203%20Tutorial/">Vapor 3 Tutorial  Start</a></p>
+<br>
+<br>
+<br>
+<p><a href="../tag/tutorial/" class="hashtag">#tutorial</a> <a href="../tag/fluent/" class="hashtag">#fluent</a> <a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/model/" class="hashtag">#model</a> <a href="../tag/migration/" class="hashtag">#migration</a> <a href="../tag/db/" class="hashtag">#db</a> <a href="../tag/generic/" class="hashtag">#generic</a> <a href="../tag/one-to-many/" class="hashtag">#one-to-many</a> <a href="../tag/many-to-one/" class="hashtag">#many-to-one</a></p>
+
+     </article>
+    </main>
+  </body>
+<html>
