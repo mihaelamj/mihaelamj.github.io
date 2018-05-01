@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parent-Child relationships in Generic Fluent Models</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created" content="2018-05-01 20:03:44 +0200" />
+    <meta name="modified" content="2018-05-01 20:15:10 +0200" />
+    <meta name="tags" content="tutorial, fluent, vapor, model, migration, db, generic, one-to-many, many-to-one"/>
+    <link rel="stylesheet" href="/default.css" type="text/css">
+  </head>
+  <body>
+    <main class="note-wrapper">
+      <!-- <nav>
+        <a href="/">#</a>
+        
+          <a href="/tag/tutorial/"># tutorial</a>
+        
+          <a href="/tag/fluent/"># fluent</a>
+        
+          <a href="/tag/vapor/"># vapor</a>
+        
+          <a href="/tag/model/"># model</a>
+        
+          <a href="/tag/migration/"># migration</a>
+        
+          <a href="/tag/db/"># db</a>
+        
+          <a href="/tag/generic/"># generic</a>
+        
+          <a href="/tag/one-to-many/"># one-to-many</a>
+        
+          <a href="/tag/many-to-one/"># many-to-one</a>
+        
+      </nav> -->
+      <article>
+       <h1>Parent-Child relationships in Generic Fluent Models</h1>
+<p>Let’s use the example of <code class="code-inline"></code><code class="code-inline">Continent  ↤⇉ Country</code><code class="code-inline"></code> from <a href="/Generic%20Pre-populated%20Models%20in%20Fluent/">Generic Pre-populated Models in Fluent</a></p>
+<p>That is a <code class="code-inline"></code><code class="code-inline"> one - to many </code><code class="code-inline"></code> relationship, where for one <code class="code-inline"></code><code class="code-inline">Continent</code><code class="code-inline"></code> there are multiple <code class="code-inline"></code><code class="code-inline">Countries</code><code class="code-inline"></code>. And not vice-versa.</p>
+<br>
+<h2>Add Generic Parent to Country</h2>
+<pre><code class="code-multiline highlight"><span class="c1">//Country ⇇↦  Continent</span>
+<span class="kd">extension</span> <span class="kt">Country</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">owner</span><span class="p">:</span> <span class="kt">Parent</span><span class="o">&lt;</span><span class="kt">Country</span><span class="p">,</span> <span class="kt">Continent</span><span class="o">&lt;</span><span class="kt">Database</span><span class="o">&gt;&gt;</span><span class="p">?</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">parent</span><span class="p">(\</span><span class="o">.</span><span class="n">continentID</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<br>
+<h3>That Requires That Referential Integrity is Defined for Country</h3>
+<pre><code class="code-multiline highlight">  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">prepareFields</span><span class="p">(</span><span class="n">on</span> <span class="nv">connection</span><span class="p">:</span> <span class="kt">Database</span><span class="o">.</span><span class="kt">Connection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Database</span><span class="o">.</span><span class="nf">create</span><span class="p">(</span><span class="kt">Country</span><span class="o">&lt;</span><span class="kt">Database</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">on</span><span class="p">:</span> <span class="n">connection</span><span class="p">)</span> <span class="p">{</span> <span class="n">builder</span> <span class="k">in</span>
+      <span class="c1">//add fields</span>
+      <span class="o">...</span>
+      <span class="c1">//indexes</span>
+      <span class="o">...</span>
+      
+      <span class="c1">//referential integrity - foreign key to parent</span>
+      <span class="k">try</span> <span class="n">builder</span><span class="o">.</span><span class="nf">addReference</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="p">\</span><span class="kt">Country</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">continentID</span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="p">\</span><span class="kt">Continent</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">id</span><span class="p">,</span> <span class="nv">actions</span><span class="p">:</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">update</span><span class="p">:</span> <span class="o">.</span><span class="n">update</span><span class="p">,</span> <span class="nv">delete</span><span class="p">:</span> <span class="o">.</span><span class="n">nullify</span><span class="p">))</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+</code></pre>
+<br>
+<h2>Add generic Children To Continent</h2>
+<pre><code class="code-multiline highlight"><span class="c1">//Continent ↤⇉ Country</span>
+<span class="kd">extension</span> <span class="kt">Continent</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">countries</span><span class="p">:</span> <span class="kt">Children</span><span class="o">&lt;</span><span class="kt">Continent</span><span class="p">,</span> <span class="kt">Country</span><span class="o">&lt;</span><span class="kt">Database</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">children</span><span class="p">(\</span><span class="o">.</span><span class="n">continentID</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<br>
+<br>
+<p>Prev:  <a href="/Generic%20Pre-populated%20Models%20in%20Fluent/">Generic Pre-populated Models in Fluent</a></p>
+<p>Next:  <a href="/Revert%20Last%20Migration/">Revert Last Migration</a></p>
+<br>
+<p><a href="/Vapor%20%203%20Tutorial/">Vapor 3 Tutorial  Start</a></p>
+<br>
+<br>
+<br>
+<p><a href="../tag/tutorial/" class="hashtag">#tutorial</a> <a href="../tag/fluent/" class="hashtag">#fluent</a> <a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/model/" class="hashtag">#model</a> <a href="../tag/migration/" class="hashtag">#migration</a> <a href="../tag/db/" class="hashtag">#db</a> <a href="../tag/generic/" class="hashtag">#generic</a> <a href="../tag/one-to-many/" class="hashtag">#one-to-many</a> <a href="../tag/many-to-one/" class="hashtag">#many-to-one</a> <a href="../tag/fluent/" class="hashtag">#fluent</a></p>
+
+     </article>
+    </main>
+  </body>
+<html>
