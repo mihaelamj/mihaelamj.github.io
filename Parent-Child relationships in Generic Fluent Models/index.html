@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-05-01 20:03:44 +0200" />
-    <meta name="modified" content="2018-05-01 20:15:10 +0200" />
+    <meta name="modified" content="2018-05-02 13:49:10 +0200" />
     <meta name="tags" content="tutorial, fluent, vapor, model, migration, db, generic, one-to-many, many-to-one"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -61,7 +61,7 @@
   <span class="p">}</span>
 </code></pre>
 <br>
-<h2>Add generic Children To Continent</h2>
+<h2>Add Generic Children To Continent</h2>
 <pre><code class="code-multiline highlight"><span class="c1">//Continent ↤⇉ Country</span>
 <span class="kd">extension</span> <span class="kt">Continent</span> <span class="p">{</span>
   <span class="k">var</span> <span class="nv">countries</span><span class="p">:</span> <span class="kt">Children</span><span class="o">&lt;</span><span class="kt">Continent</span><span class="p">,</span> <span class="kt">Country</span><span class="o">&lt;</span><span class="kt">Database</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
