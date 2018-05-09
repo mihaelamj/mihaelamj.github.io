@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Adding Pagination To Vapor Query</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created" content="2018-05-09 13:31:37 +0200" />
+    <meta name="modified" content="2018-05-09 13:47:47 +0200" />
+    <meta name="tags" content="pub, query, fluent, swift, pagination"/>
+    <link rel="stylesheet" href="/default.css" type="text/css">
+  </head>
+  <body>
+    <main class="note-wrapper">
+      <!-- <nav>
+        <a href="/">#</a>
+        
+          <a href="/tag/pub/"># pub</a>
+        
+          <a href="/tag/query/"># query</a>
+        
+          <a href="/tag/fluent/"># fluent</a>
+        
+          <a href="/tag/swift/"># swift</a>
+        
+          <a href="/tag/pagination/"># pagination</a>
+        
+      </nav> -->
+      <article>
+       <h1>Adding Pagination To Vapor Query</h1>
+<p>When you have a request that returns many records, it’s almost required to paginate the response.</p>
+<br>
+<p>I found this  <a href="https://github.com/LiveUI/ApiCore/blob/aad69bd76fe0089539a1cafce65fd678db4af255/Sources/ApiCore/Model/Query/BasicQuery.swift">QueryContainer extension</a> that does just that:</p>
+<br>
+<h2>QueryContainer extension</h2>
+<br>
+<pre><code class="code-multiline highlight"><span class="kd">import</span> <span class="kt">Foundation</span>
+<span class="kd">import</span> <span class="kt">Vapor</span>
+<span class="kd">import</span> <span class="kt">Fluent</span>
+
+
+<span class="kd">public</span> <span class="kd">struct</span> <span class="kt">BasicQuery</span><span class="p">:</span> <span class="kt">Codable</span> <span class="p">{</span>
+    <span class="kd">public</span> <span class="k">let</span> <span class="nv">plain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span>
+    <span class="kd">public</span> <span class="k">let</span> <span class="nv">page</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span>
+    <span class="kd">public</span> <span class="k">let</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span>
+    <span class="kd">public</span> <span class="k">let</span> <span class="nv">search</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+    
+<span class="p">}</span>
+
+
+<span class="kd">extension</span> <span class="kt">QueryContainer</span> <span class="p">{</span>
+    <span class="kd">public</span> <span class="k">var</span> <span class="nv">basic</span><span class="p">:</span> <span class="kt">BasicQuery</span><span class="p">?</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">decoded</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="nf">decode</span><span class="p">(</span><span class="kt">BasicQuery</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">decoded</span>
+    <span class="p">}</span>
+    
+    <span class="kd">public</span> <span class="k">var</span> <span class="nv">plain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">basic</span><span class="p">?</span><span class="o">.</span><span class="n">plain</span>
+    <span class="p">}</span>
+    
+    <span class="kd">public</span> <span class="k">var</span> <span class="nv">page</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">basic</span><span class="p">?</span><span class="o">.</span><span class="n">page</span>
+    <span class="p">}</span>
+    
+    <span class="kd">public</span> <span class="k">var</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">basic</span><span class="p">?</span><span class="o">.</span><span class="n">limit</span> <span class="p">??</span> <span class="mi">20</span>
+    <span class="p">}</span>
+    
+    <span class="kd">public</span> <span class="k">var</span> <span class="nv">search</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">basic</span><span class="p">?</span><span class="o">.</span><span class="n">search</span>
+    <span class="p">}</span>
+    
+<span class="p">}</span>
+
+<span class="c1">//GET http://localhost:8080/api/countries?limit=20&amp;page=1</span>
+<span class="kd">extension</span> <span class="kt">QueryBuilder</span> <span class="p">{</span>
+    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">paginate</span><span class="p">(</span><span class="n">on</span> <span class="nv">req</span><span class="p">:</span> <span class="kt">Request</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">limit</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">basic</span><span class="p">?</span><span class="o">.</span><span class="n">limit</span> <span class="p">{</span>
+            <span class="k">let</span> <span class="nv">page</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">basic</span><span class="p">?</span><span class="o">.</span><span class="n">page</span> <span class="p">??</span> <span class="mi">0</span>
+            <span class="k">let</span> <span class="nv">lower</span> <span class="o">=</span> <span class="p">(</span><span class="n">page</span> <span class="o">*</span> <span class="n">limit</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nf">range</span><span class="p">(</span><span class="nv">lower</span><span class="p">:</span> <span class="n">lower</span><span class="p">,</span> <span class="nv">upper</span><span class="p">:</span> <span class="p">(</span><span class="n">lower</span> <span class="o">+</span> <span class="n">limit</span><span class="p">))</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="k">self</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<br>
+<h2>Implementation</h2>
+<pre><code class="code-multiline highlight"><span class="c1">//GET /api/countries</span>
+<span class="n">aRoute</span><span class="o">.</span><span class="nf">get</span><span class="p">(</span><span class="nv">use</span><span class="p">:</span> <span class="n">getAllPaginatedHandler</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="kd">func</span> <span class="nf">getAllPaginatedHandler</span><span class="p">(</span><span class="n">_</span> <span class="nv">req</span><span class="p">:</span> <span class="kt">Request</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">CountrySQLite</span><span class="p">]</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">try</span> <span class="kt">CountrySQLite</span><span class="o">.</span><span class="nf">query</span><span class="p">(</span><span class="nv">on</span><span class="p">:</span> <span class="n">req</span><span class="p">)</span><span class="o">.</span><span class="nf">paginate</span><span class="p">(</span><span class="nv">on</span><span class="p">:</span> <span class="n">req</span><span class="p">)</span><span class="o">.</span><span class="nf">all</span><span class="p">()</span>
+  <span class="p">}</span>
+</code></pre>
+<br>
+<h2>Usage</h2>
+<p>To fetch 10th page, given that a page size is 20 records:</p>
+<pre><code class="code-multiline highlight">GET http://localhost:8080/api/countries?limit=20&amp;page=10
+</code></pre>
+<br>
+<p>You may checkout the full example on GitHub:</p>
+<p><a href="https://github.com/mihaelamj/TestVaporCountries">TestVaporCountries</a></p>
+<br>
+<p>Prev:  <a href="/Parent-Child%20relationships%20in%20Generic%20Fluent%20Models/">Parent-Child relationships in Generic Fluent Models</a></p>
+<p>Next: <a href="/Revert%20Last%20Migration/">Revert Last Migration</a></p>
+<br>
+<p><a href="/Vapor%20%203%20Tutorial/">Vapor 3 Tutorial  Start</a></p>
+<br>
+<p><a href="../tag/pub/" class="hashtag">#pub</a> <a href="../tag/query/" class="hashtag">#query</a> <a href="../tag/fluent/" class="hashtag">#fluent</a> <a href="../tag/swift/" class="hashtag">#swift</a> <a href="../tag/pagination/" class="hashtag">#pagination</a></p>
+
+     </article>
+    </main>
+  </body>
+<html>
