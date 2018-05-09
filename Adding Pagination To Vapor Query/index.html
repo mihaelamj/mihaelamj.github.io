@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-05-09 13:31:37 +0200" />
-    <meta name="modified" content="2018-05-09 13:47:47 +0200" />
+    <meta name="modified" content="2018-05-09 13:54:50 +0200" />
     <meta name="tags" content="pub, query, fluent, swift, pagination"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -37,15 +37,12 @@
 <span class="kd">import</span> <span class="kt">Vapor</span>
 <span class="kd">import</span> <span class="kt">Fluent</span>
 
-
 <span class="kd">public</span> <span class="kd">struct</span> <span class="kt">BasicQuery</span><span class="p">:</span> <span class="kt">Codable</span> <span class="p">{</span>
     <span class="kd">public</span> <span class="k">let</span> <span class="nv">plain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span>
     <span class="kd">public</span> <span class="k">let</span> <span class="nv">page</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span>
     <span class="kd">public</span> <span class="k">let</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span>
     <span class="kd">public</span> <span class="k">let</span> <span class="nv">search</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
-    
 <span class="p">}</span>
-
 
 <span class="kd">extension</span> <span class="kt">QueryContainer</span> <span class="p">{</span>
     <span class="kd">public</span> <span class="k">var</span> <span class="nv">basic</span><span class="p">:</span> <span class="kt">BasicQuery</span><span class="p">?</span> <span class="p">{</span>
