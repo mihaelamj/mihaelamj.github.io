@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-05-09 16:38:51 +0200" />
-    <meta name="modified" content="2018-05-09 20:59:15 +0200" />
+    <meta name="modified" content="2018-05-09 21:04:53 +0200" />
     <meta name="tags" content="tutorial, fluent, vapor, model, migration, db, generic, swift, pub"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -60,12 +60,65 @@
 <span class="p">}</span>
 </code></pre>
 <br>
+<p>I usually put that extension to  <code class="code-inline"></code><code class="code-inline">MigrationConfig</code><code class="code-inline"></code> in the main <code class="code-inline"></code><code class="code-inline">swift</code><code class="code-inline"></code> file, for example for a project named <code class="code-inline"></code><code class="code-inline">VaporCountries</code><code class="code-inline"></code>, I put it in <code class="code-inline"></code><code class="code-inline">VaporCountries.swift</code><code class="code-inline"></code> file.</p>
+<br>
 <h2>Usage</h2>
 <p>In your <code class="code-inline"></code><code class="code-inline">configure.swift</code><code class="code-inline"></code> just add this code, with the appropriate database:</p>
 <br>
 <pre><code class="code-multiline highlight"><span class="kd">import</span> <span class="kt">VaporCountries</span>
 <span class="o">...</span>
 <span class="n">migrations</span><span class="o">.</span><span class="nf">addVaporCountries</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">sqlite</span><span class="p">)</span>
+</code></pre>
+<br>
+<p>Just for kicks, here’s another example, <code class="code-inline"></code><code class="code-inline">VaporSpices</code><code class="code-inline"></code> (another Vapor 3 package.)</p>
+<br>
+<pre><code class="code-multiline highlight"><span class="kd">import</span> <span class="kt">Foundation</span>
+<span class="kd">import</span> <span class="kt">Fluent</span>
+
+<span class="kd">public</span> <span class="kd">extension</span> <span class="kt">MigrationConfig</span> <span class="p">{</span>
+  <span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="n">addVaporSpices</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">(</span><span class="k">for</span> <span class="nv">database</span><span class="p">:</span> <span class="kt">DatabaseIdentifier</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">where</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">QuerySupporting</span> <span class="o">&amp;</span> <span class="kt">SchemaSupporting</span> <span class="o">&amp;</span> <span class="kt">IndexSupporting</span> <span class="o">&amp;</span> <span class="kt">ReferenceSupporting</span> <span class="p">{</span>
+    
+    <span class="kt">Form</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="n">database</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">FormMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="n">database</span><span class="p">)</span>
+    
+    <span class="kt">Heat</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="n">database</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">HeatMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="n">database</span><span class="p">)</span>
+    
+    <span class="kt">Technique</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="n">database</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">TechniqueMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="n">database</span><span class="p">)</span>
+    
+    <span class="kt">Season</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="n">database</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">SeasonMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="n">database</span><span class="p">)</span>
+    
+    <span class="kt">Volume</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="n">database</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">VolumeMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="n">database</span><span class="p">)</span>
+    
+    <span class="kt">Weight</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="n">database</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">WeightMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="n">database</span><span class="p">)</span>
+    
+    <span class="k">Type</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="n">database</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">TypeMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="n">database</span><span class="p">)</span>
+    
+    <span class="kt">Function</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="n">database</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">FunctionMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="n">database</span><span class="p">)</span>
+    
+    <span class="kt">Heat</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="n">database</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">HeatMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="n">database</span><span class="p">)</span>
+    
+    <span class="kt">Taste</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="n">database</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">TasteMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="n">database</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre>
+<br>
+<p>SO with one-liner you can add  10 models Ito (any) your database</p>
+<br>
+<pre><code class="code-multiline highlight"><span class="n">migrations</span><span class="o">.</span><span class="nf">addVaporSpices</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">sqlite</span><span class="p">)</span>
+<span class="c1">//or</span>
+<span class="n">migrations</span><span class="o">.</span><span class="nf">addVaporSpices</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">psql</span><span class="p">)</span>
+<span class="c1">//or</span>
+<span class="n">migrations</span><span class="o">.</span><span class="nf">addVaporSpices</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">mysql</span><span class="p">)</span>
 </code></pre>
 <br>
 <p>Prev:  <a href="/Generic%20Pre-populated%20Models%20in%20Fluent/">Generic Pre-populated Models in Fluent</a></p>
