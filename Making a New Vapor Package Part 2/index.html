@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Making a New Vapor Package Part 2</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created" content="2018-05-09 20:07:58 +0200" />
+    <meta name="modified" content="2018-05-09 20:44:04 +0200" />
+    <meta name="tags" content="pub, package, vapor, swift, spm, local"/>
+    <link rel="stylesheet" href="/default.css" type="text/css">
+  </head>
+  <body>
+    <main class="note-wrapper">
+      <!-- <nav>
+        <a href="/">#</a>
+        
+          <a href="/tag/pub/"># pub</a>
+        
+          <a href="/tag/package/"># package</a>
+        
+          <a href="/tag/vapor/"># vapor</a>
+        
+          <a href="/tag/swift/"># swift</a>
+        
+          <a href="/tag/spm/"># spm</a>
+        
+          <a href="/tag/local/"># local</a>
+        
+      </nav> -->
+      <article>
+       <h1>Making a New Vapor Package Part 2</h1>
+<p>Wouldn’t it be nice to be able to test your new Vapor package, locally, before  you publish it to GitHub?</p>
+<p>For that to work, we need to make a new test Vapor project, and include oir new package <code class="code-inline"></code><code class="code-inline">locally</code><code class="code-inline"></code></p>
+<br>
+<pre><code class="code-multiline highlight">// 1.0.0 ..&lt; 2.0.0
+.package(url: "/SwiftyJSON", from: "1.0.0")
+
+// 1.5.8 ..&lt; 2.0.0
+.package(url: "/SwiftyJSON", .upToNextMajor(from: "1.5.8")),
+
+// 1.5.8
+.package(url: "/SwiftyJSON", .exact("1.5.8")),
+
+// Branch and revision.
+.package(url: "/SwiftyJSON", .branch("develop")),
+.package(url: "/SwiftyJSON", .revision("e74b07278b926c9ec6f9643455ea00d1ce04a021"))
+</code></pre>
+<br>
+<p>Just a reminder, for this to work, your package must be tagged:</p>
+<pre><code class="code-multiline highlight">git tag 0.0.0
+git push --tags
+</code></pre>
+<br>
+<p>For example I have a package named <code class="code-inline"></code><code class="code-inline">VaporSpices</code><code class="code-inline"></code> in it’s own directory.</p>
+<p>I also have a test project <code class="code-inline"></code><code class="code-inline">MakeVaporCountries</code><code class="code-inline"></code> in the same hierarchy lever. It is tagged as <code class="code-inline"></code><code class="code-inline">0.0.1</code><code class="code-inline"></code>.</p>
+<br>
+<pre><code class="code-multiline highlight"><span class="c1">//VaporSpices</span>
+ <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"../VaporSpices"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"0.0.1"</span><span class="p">)</span>
+</code></pre>
+<br>
+<br>
+<p>Prev:  <a href="/Generic%20Migrations%20in%20Vapor%20Fluent/">Generic Migrations in Vapor Fluent</a></p>
+<p>Next:  <a href="/Parent-Child%20relationships%20in%20Generic%20Fluent%20Models/">Parent-Child relationships in Generic Fluent Models</a></p>
+<br>
+<p><a href="/Vapor%20%203%20Tutorial/">Vapor 3 Tutorial  Start</a></p>
+<br>
+<p><a href="../tag/pub/" class="hashtag">#pub</a> <a href="../tag/package/" class="hashtag">#package</a> <a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/swift/" class="hashtag">#swift</a> <a href="../tag/spm/" class="hashtag">#spm</a>  <a href="../tag/local/" class="hashtag">#local</a></p>
+
+     </article>
+    </main>
+  </body>
+<html>
