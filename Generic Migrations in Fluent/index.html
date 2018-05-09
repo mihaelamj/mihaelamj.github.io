@@ -4,17 +4,15 @@
     <title>Generic Migrations in Fluent</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="created" content="2018-05-01 00:01:49 +0200" />
-    <meta name="modified" content="2018-05-01 19:26:58 +0200" />
-    <meta name="tags" content="postgresql., tutorial, fluent, vapor, model, migration, db, generic"/>
+    <meta name="created" content="2018-05-09 16:38:51 +0200" />
+    <meta name="modified" content="2018-05-09 16:46:30 +0200" />
+    <meta name="tags" content="tutorial, fluent, vapor, model, migration, db, generic, swift"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
   <body>
     <main class="note-wrapper">
       <!-- <nav>
         <a href="/">#</a>
-        
-          <a href="/tag/postgresql./"># postgresql.</a>
         
           <a href="/tag/tutorial/"># tutorial</a>
         
@@ -30,100 +28,50 @@
         
           <a href="/tag/generic/"># generic</a>
         
+          <a href="/tag/swift/"># swift</a>
+        
       </nav> -->
       <article>
        <h1>Generic Migrations in Fluent</h1>
-<p>So we pre-populated our database with initial data in previous two tips and even added related data. That’s fine, but it is all related to <a href="../tag/postgresql./" class="hashtag">#postgresql.</a></p>
-<p>What if we wanted to make it work with all the databases that <code class="code-inline"></code><code class="code-inline">Vapor</code><code class="code-inline"></code> supports.</p>
-<p>Well in that case we need a <code class="code-inline"></code><code class="code-inline">Generic Migration</code><code class="code-inline"></code>.</p>
+<p>When using generic models, we had to add migrations “by hand”, something like this:</p>
 <br>
-<pre><code class="code-multiline highlight"><span class="kd">import</span> <span class="kt">Async</span>
+<pre><code class="code-multiline highlight"><span class="kt">Continent</span><span class="o">&lt;</span><span class="kt">SQLiteDatabase</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="o">.</span><span class="n">sqlite</span>
+<span class="kt">Country</span><span class="o">&lt;</span><span class="kt">SQLiteDatabase</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="o">.</span><span class="n">sqlite</span>
+<span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">ContinentMigration</span><span class="o">&lt;</span><span class="kt">SQLiteDatabase</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">sqlite</span><span class="p">)</span>
+<span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">CountryMigration</span><span class="o">&lt;</span><span class="kt">SQLiteDatabase</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">sqlite</span><span class="p">)</span>
+</code></pre>
+<p>The above example is for <code class="code-inline"></code><code class="code-inline">.sqlite</code><code class="code-inline"></code>.</p>
+<p>If we changed the database, we would have to change the <code class="code-inline"></code><code class="code-inline">specific</code><code class="code-inline"></code> code.</p>
+<p>What it we could do it in a pure generic way?</p>
+<br>
+<h2>Generic Migration Example</h2>
+<pre><code class="code-multiline highlight"><span class="kd">import</span> <span class="kt">Foundation</span>
 <span class="kd">import</span> <span class="kt">Fluent</span>
-<span class="kd">import</span> <span class="kt">Foundation</span>
-
-<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">TestModel</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">Model</span> <span class="k">where</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">QuerySupporting</span> <span class="p">{</span>
-
-  <span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Database</span> <span class="o">=</span> <span class="kt">D</span>
-  <span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">ID</span> <span class="o">=</span> <span class="kt">Int</span>
-  <span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">idKey</span><span class="p">:</span> <span class="kt">IDKey</span> <span class="p">{</span> <span class="k">return</span> <span class="p">\</span><span class="o">.</span><span class="n">id</span> <span class="p">}</span>
-  <span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">entity</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="s">"testModel"</span>
-  <span class="p">}</span>
-  
-  <span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">database</span><span class="p">:</span> <span class="kt">DatabaseIdentifier</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="s">"test"</span><span class="p">)</span>
-  <span class="p">}</span>
-  
-  <span class="k">var</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span>
-  <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
-  <span class="k">var</span> <span class="nv">num</span> <span class="p">:</span> <span class="kt">Int</span>
-  
-  <span class="nf">init</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">num</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-    <span class="k">self</span><span class="o">.</span><span class="n">num</span> <span class="o">=</span> <span class="n">num</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kd">extension</span> <span class="kt">TestModel</span><span class="p">:</span> <span class="kt">Migration</span> <span class="k">where</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">SchemaSupporting</span><span class="p">,</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">QuerySupporting</span> <span class="p">{</span> <span class="p">}</span>
 
 <span class="kd">extension</span> <span class="kt">MigrationConfig</span> <span class="p">{</span>
-  <span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="n">addTestModels</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">(</span><span class="k">for</span> <span class="nv">database</span><span class="p">:</span> <span class="kt">DatabaseIdentifier</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">)</span>
-    <span class="k">where</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">QuerySupporting</span><span class="p">,</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">IndexSupporting</span> <span class="p">{</span>
-      <span class="k">self</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">model</span><span class="p">:</span> <span class="kt">TestModel</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="n">database</span><span class="p">)</span>
+  <span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="n">addVaporCountries</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">(</span><span class="k">for</span> <span class="nv">database</span><span class="p">:</span> <span class="kt">DatabaseIdentifier</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">where</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">QuerySupporting</span> <span class="o">&amp;</span> <span class="kt">SchemaSupporting</span> <span class="o">&amp;</span> <span class="kt">IndexSupporting</span> <span class="o">&amp;</span> <span class="kt">ReferenceSupporting</span> <span class="p">{</span>
+    <span class="kt">Continent</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="n">database</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">ContinentMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="n">database</span><span class="p">)</span>
+    <span class="kt">Country</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="n">database</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">CountryMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="n">database</span><span class="p">)</span>
   <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="k">let</span> <span class="nv">testNames</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="s">"test_Name_1"</span><span class="p">,</span>
-  <span class="s">"test_Name_2"</span><span class="p">,</span>
-  <span class="s">"test_Name_3"</span>
-<span class="p">]</span>
-
-<span class="kd">internal</span> <span class="kd">struct</span> <span class="kt">TestModelMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">Migration</span> <span class="k">where</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">QuerySupporting</span> <span class="o">&amp;</span> <span class="kt">SchemaSupporting</span> <span class="p">{</span>
-  <span class="kd">typealias</span> <span class="kt">Database</span> <span class="o">=</span> <span class="kt">D</span>
-  
-  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">prepare</span><span class="p">(</span><span class="n">on</span> <span class="nv">connection</span><span class="p">:</span> <span class="kt">Database</span><span class="o">.</span><span class="kt">Connection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{</span>
-    <span class="c1">//Insert all names</span>
-    <span class="k">let</span> <span class="nv">futures</span> <span class="p">:</span> <span class="p">[</span><span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">]</span> <span class="o">=</span> <span class="n">testNames</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="n">name</span> <span class="k">in</span>
-      <span class="k">return</span> <span class="kt">TestModel</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="nv">num</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="nf">create</span><span class="p">(</span><span class="nv">on</span><span class="p">:</span> <span class="n">connection</span><span class="p">)</span><span class="o">.</span><span class="nf">map</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="kt">Void</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="k">return</span> <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;.</span><span class="nf">andAll</span><span class="p">(</span><span class="n">futures</span><span class="p">,</span> <span class="nv">eventLoop</span><span class="p">:</span> <span class="n">connection</span><span class="o">.</span><span class="n">eventLoop</span><span class="p">)</span>
-  <span class="p">}</span>
-  
-  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">revert</span><span class="p">(</span><span class="n">on</span> <span class="nv">connection</span><span class="p">:</span> <span class="kt">Database</span><span class="o">.</span><span class="kt">Connection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{</span>
-    <span class="k">do</span> <span class="p">{</span>
-      <span class="c1">// Delete all names</span>
-      <span class="k">let</span> <span class="nv">futures</span> <span class="o">=</span> <span class="k">try</span> <span class="n">testNames</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="n">name</span> <span class="k">in</span>
-        <span class="k">return</span> <span class="k">try</span> <span class="kt">TestModel</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="nf">query</span><span class="p">(</span><span class="nv">on</span><span class="p">:</span> <span class="n">connection</span><span class="p">)</span><span class="o">.</span><span class="nf">filter</span><span class="p">(\</span><span class="kt">TestModel</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="o">.</span><span class="n">equals</span><span class="p">,</span> <span class="o">.</span><span class="nf">data</span><span class="p">(</span><span class="n">name</span><span class="p">))</span><span class="o">.</span><span class="nf">delete</span><span class="p">()</span>
-      <span class="p">}</span>
-      <span class="k">return</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;.</span><span class="nf">andAll</span><span class="p">(</span><span class="n">futures</span><span class="p">,</span> <span class="nv">eventLoop</span><span class="p">:</span> <span class="n">connection</span><span class="o">.</span><span class="n">eventLoop</span><span class="p">)</span>
-    <span class="p">}</span>
-    <span class="k">catch</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="n">connection</span><span class="o">.</span><span class="n">eventLoop</span><span class="o">.</span><span class="nf">newFailedFuture</span><span class="p">(</span><span class="nv">error</span><span class="p">:</span> <span class="n">error</span><span class="p">)</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-
 <span class="p">}</span>
 </code></pre>
 <br>
-<h2>Run your migration</h2>
-<p>In <code class="code-inline"></code><code class="code-inline">configure.swift</code><code class="code-inline"></code> add the code:</p>
-<pre><code class="code-multiline highlight"><span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">model</span><span class="p">:</span> <span class="kt">TestModel</span><span class="o">&lt;</span><span class="kt">PostgreSQLDatabase</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">psql</span><span class="p">)</span>
-<span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">TestModelMigration</span><span class="o">&lt;</span><span class="kt">PostgreSQLDatabase</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">psql</span><span class="p">)</span>
+<h2>Usage</h2>
+<p>In your <code class="code-inline"></code><code class="code-inline">configure.swift</code><code class="code-inline"></code> just add this code, with the appropriate database:</p>
+<br>
+<pre><code class="code-multiline highlight"><span class="n">migrations</span><span class="o">.</span><span class="nf">addVaporCountries</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">sqlite</span><span class="p">)</span>
 </code></pre>
 <br>
-<p>And the data is added:</p>
-<p><img src="assets/test_data.png"></p>
-<br>
-<br>
-<p>Prev:  <a href="/Pre-populating%20Related%20Tables%20in%20Vapor/">Pre-populating Related Tables in Vapor</a></p>
-<p>Next:  <a href="/Generic%20Pre-populated%20Models%20in%20Fluent/">Generic Pre-populated Models in Fluent</a></p>
+<p>Prev:  <a href="/Generic%20Pre-populated%20Models%20in%20Fluent/">Generic Pre-populated Models in Fluent</a></p>
+<p>Next:  <a href="/Making%20a%20New%20Vapor%20Package/">Making a New Vapor Package</a></p>
 <br>
 <p><a href="/Vapor%20%203%20Tutorial/">Vapor 3 Tutorial  Start</a></p>
 <br>
 <br>
 <br>
-<p><a href="../tag/tutorial/" class="hashtag">#tutorial</a> <a href="../tag/fluent/" class="hashtag">#fluent</a> <a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/model/" class="hashtag">#model</a> <a href="../tag/migration/" class="hashtag">#migration</a> <a href="../tag/db/" class="hashtag">#db</a> <a href="../tag/generic/" class="hashtag">#generic</a></p>
+<p><a href="../tag/tutorial/" class="hashtag">#tutorial</a> <a href="../tag/fluent/" class="hashtag">#fluent</a> <a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/model/" class="hashtag">#model</a> <a href="../tag/migration/" class="hashtag">#migration</a> <a href="../tag/db/" class="hashtag">#db</a> <a href="../tag/generic/" class="hashtag">#generic</a> <a href="../tag/swift/" class="hashtag">#swift</a></p>
 
      </article>
     </main>
