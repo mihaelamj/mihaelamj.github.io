@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="created" content="2018-05-09 16:38:51 +0200" />
-    <meta name="modified" content="2018-05-09 20:49:07 +0200" />
+    <meta name="modified" content="2018-05-09 20:59:15 +0200" />
     <meta name="tags" content="tutorial, fluent, vapor, model, migration, db, generic, swift, pub"/>
     <link rel="stylesheet" href="/default.css" type="text/css">
   </head>
@@ -50,7 +50,7 @@
 <pre><code class="code-multiline highlight"><span class="kd">import</span> <span class="kt">Foundation</span>
 <span class="kd">import</span> <span class="kt">Fluent</span>
 
-<span class="kd">extension</span> <span class="kt">MigrationConfig</span> <span class="p">{</span>
+<span class="kd">public</span> <span class="kd">extension</span> <span class="kt">MigrationConfig</span> <span class="p">{</span>
   <span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="n">addVaporCountries</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">(</span><span class="k">for</span> <span class="nv">database</span><span class="p">:</span> <span class="kt">DatabaseIdentifier</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">where</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">QuerySupporting</span> <span class="o">&amp;</span> <span class="kt">SchemaSupporting</span> <span class="o">&amp;</span> <span class="kt">IndexSupporting</span> <span class="o">&amp;</span> <span class="kt">ReferenceSupporting</span> <span class="p">{</span>
     <span class="kt">Continent</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="n">database</span>
     <span class="k">self</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">ContinentMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="n">database</span><span class="p">)</span>
