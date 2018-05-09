@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Generic Migrations in Fluent Part 2</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created" content="2018-05-09 16:38:51 +0200" />
+    <meta name="modified" content="2018-05-09 19:20:57 +0200" />
+    <meta name="tags" content="tutorial, fluent, vapor, model, migration, db, generic, swift"/>
+    <link rel="stylesheet" href="/default.css" type="text/css">
+  </head>
+  <body>
+    <main class="note-wrapper">
+      <!-- <nav>
+        <a href="/">#</a>
+        
+          <a href="/tag/tutorial/"># tutorial</a>
+        
+          <a href="/tag/fluent/"># fluent</a>
+        
+          <a href="/tag/vapor/"># vapor</a>
+        
+          <a href="/tag/model/"># model</a>
+        
+          <a href="/tag/migration/"># migration</a>
+        
+          <a href="/tag/db/"># db</a>
+        
+          <a href="/tag/generic/"># generic</a>
+        
+          <a href="/tag/swift/"># swift</a>
+        
+      </nav> -->
+      <article>
+       <h1>Generic Migrations in Fluent Part 2</h1>
+<p>When using generic models, we had to add migrations “by hand”, something like this:</p>
+<br>
+<pre><code class="code-multiline highlight"><span class="kt">Continent</span><span class="o">&lt;</span><span class="kt">SQLiteDatabase</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="o">.</span><span class="n">sqlite</span>
+<span class="kt">Country</span><span class="o">&lt;</span><span class="kt">SQLiteDatabase</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="o">.</span><span class="n">sqlite</span>
+<span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">ContinentMigration</span><span class="o">&lt;</span><span class="kt">SQLiteDatabase</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">sqlite</span><span class="p">)</span>
+<span class="n">migrations</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">CountryMigration</span><span class="o">&lt;</span><span class="kt">SQLiteDatabase</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="o">.</span><span class="n">sqlite</span><span class="p">)</span>
+</code></pre>
+<p>The above example is for <code class="code-inline"></code><code class="code-inline">.sqlite</code><code class="code-inline"></code>.</p>
+<p>If we changed the database, we would have to change the <code class="code-inline"></code><code class="code-inline">specific</code><code class="code-inline"></code> code.</p>
+<p>What it we could do it in a pure generic way?</p>
+<br>
+<h2>Generic Migration Example</h2>
+<pre><code class="code-multiline highlight"><span class="kd">import</span> <span class="kt">Foundation</span>
+<span class="kd">import</span> <span class="kt">Fluent</span>
+
+<span class="kd">extension</span> <span class="kt">MigrationConfig</span> <span class="p">{</span>
+  <span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="n">addVaporCountries</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">(</span><span class="k">for</span> <span class="nv">database</span><span class="p">:</span> <span class="kt">DatabaseIdentifier</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">where</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">QuerySupporting</span> <span class="o">&amp;</span> <span class="kt">SchemaSupporting</span> <span class="o">&amp;</span> <span class="kt">IndexSupporting</span> <span class="o">&amp;</span> <span class="kt">ReferenceSupporting</span> <span class="p">{</span>
+    <span class="kt">Continent</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="n">database</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">ContinentMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="n">database</span><span class="p">)</span>
+    <span class="kt">Country</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="n">defaultDatabase</span> <span class="o">=</span> <span class="n">database</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="kt">CountryMigration</span><span class="o">&lt;</span><span class="kt">D</span><span class="o">&gt;.</span><span class="k">self</span><span class="p">,</span> <span class="nv">database</span><span class="p">:</span> <span class="n">database</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<br>
+<h2>Usage</h2>
+<p>In your <code class="code-inline"></code><code class="code-inline">configure.swift</code><code class="code-inline"></code> just add this code, with the appropriate database:</p>
+<br>
+<pre><code class="code-multiline highlight"><span class="n">migrations</span><span class="o">.</span><span class="nf">addVaporCountries</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">sqlite</span><span class="p">)</span>
+</code></pre>
+<br>
+<p>Prev:  <a href="/Generic%20Pre-populated%20Models%20in%20Fluent/">Generic Pre-populated Models in Fluent</a></p>
+<p>Next:  <a href="/Making%20a%20New%20Vapor%20Package/">Making a New Vapor Package</a></p>
+<br>
+<p><a href="/Vapor%20%203%20Tutorial/">Vapor 3 Tutorial  Start</a></p>
+<br>
+<br>
+<br>
+<p><a href="../tag/tutorial/" class="hashtag">#tutorial</a> <a href="../tag/fluent/" class="hashtag">#fluent</a> <a href="../tag/vapor/" class="hashtag">#vapor</a> <a href="../tag/model/" class="hashtag">#model</a> <a href="../tag/migration/" class="hashtag">#migration</a> <a href="../tag/db/" class="hashtag">#db</a> <a href="../tag/generic/" class="hashtag">#generic</a> <a href="../tag/swift/" class="hashtag">#swift</a></p>
+
+     </article>
+    </main>
+  </body>
+<html>
