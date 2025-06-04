@@ -1,0 +1,11 @@
+# macOS system files
+.DS_Store
+
+# Xcode build artifacts
+/.build
+/.swiftpm
+/*.xcodeproj
+/_sources
+DerivedData/
+
+
