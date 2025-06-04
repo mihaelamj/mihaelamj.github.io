@@ -28,6 +28,7 @@ extension IgniteWebsite {
         
         // Define files to copy (source -> destination filename)
         let filesToCopy = [
+            "../CNAME": "CNAME",               
             "../mihaela-cv.pdf": "mihaela-cv.pdf"
             // Add more files here as needed:
             // "../resume.pdf": "resume.pdf",
