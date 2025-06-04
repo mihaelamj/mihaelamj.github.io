@@ -7,5 +7,6 @@
 /*.xcodeproj
 /_sources
 DerivedData/
+**/.build/
 
 
