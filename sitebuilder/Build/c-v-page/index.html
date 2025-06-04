@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Mihaela Mihaljevic" />
+    <meta name="generator" content="Ignite v0.6.0" />
+    <title>CV – Mihaela's Site</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/prism-xcode-dark.css" rel="stylesheet" data-highlight-theme="xcode-dark" />
+    <link href="/css/prism-xcode-light.css" rel="stylesheet" data-highlight-theme="xcode-light" />
+    <link href="/css/prism-plugins.css" rel="stylesheet" />
+    <link href="/css/bootstrap-icons.min.css" rel="stylesheet" />
+    <link href="/css/ignite-core.min.css" rel="stylesheet" />
+    <link href="https://www.aleahim.com/c-v-page" rel="canonical" />
+    <script>(function() {
+    function getThemePreference() {
+        return localStorage.getItem('custom-theme') || 'auto';
+    }
+
+    function applyTheme(themeID) {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const lightThemeID = document.documentElement.getAttribute('data-light-theme') || 'light';
+        const darkThemeID = document.documentElement.getAttribute('data-dark-theme') || 'dark';
+        const actualThemeID = themeID === 'auto' ? (prefersDark ? darkThemeID : lightThemeID) : themeID;
+
+        document.documentElement.setAttribute('data-bs-theme', actualThemeID);
+        document.documentElement.setAttribute('data-theme-state', themeID);
+    }
+
+    function applySyntaxTheme() {
+        const syntaxTheme = getComputedStyle(document.documentElement)
+            .getPropertyValue('--syntax-highlight-theme').trim().replace(/"/g, '');
+
+        if (!syntaxTheme) return;
+
+        document.querySelectorAll('link[data-highlight-theme]').forEach(link => {
+            link.setAttribute('disabled', 'disabled');
+        });
+
+        const themeLink = document.querySelector(`link[data-highlight-theme="${syntaxTheme}"]`);
+        if (themeLink) {
+            themeLink.removeAttribute('disabled');
+        }
+    }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        const currentTheme = getThemePreference();
+        if (currentTheme === 'auto') {
+            applyTheme('auto');
+            applySyntaxTheme();
+        }
+    });
+
+    const savedTheme = getThemePreference();
+    applyTheme(savedTheme);
+    applySyntaxTheme();
+})();
+</script>
+    <meta property="og:site_name" content="Aleahim.com" />
+    <meta property="og:title" content="CV" />
+    <meta name="twitter:title" content="CV" />
+    <meta property="og:url" content="https://www.aleahim.com/c-v-page" />
+    <meta name="twitter:domain" content="aleahim.com" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:dnt" content="on" />
+  </head>
+  <body class="container">
+    <div style="padding-bottom: 80px">
+      <header>
+        <nav class="fixed-top navbar navbar-expand-md">
+          <div class="container flex-wrap flex-lg-nowrap">
+            <div class="me-2 me-md-auto">
+              <a href="/" class="d-inline-flex align-items-center navbar-brand"><span>Aleahim</span></a>
+            </div>
+            <button type="button" class="navbar-toggler btn" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div id="navbarCollapse" class="collapse navbar-collapse">
+              <ul class="navbar-nav mb-2 mb-md-0 col justify-content-end">
+                <li class="nav-item"><a href="/home" class="nav-link text-nowrap link-primary">Home</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link text-nowrap link-primary">About</a></li>
+                <li class="nav-item"><a href="/c-v-page" class="nav-link active text-nowrap link-primary" aria-current="page">CV</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+    </div>
+    <div class="ig-main-content">
+      <div>
+        <h1>Mihaela's CV</h1>
+        <a download="mihaela-cv.pdf" href="/mihaela-cv.pdf" class="mb-4">Download PDF Version</a>
+        <div class="py-5 text-start" style="width: 100%; max-width: 80.0%; padding: 20px">
+          <div>
+            <h1>Mihaela Mihaljević Jakić</h1>
+            <h2 class="text-body-secondary">Senior iOS Architect &amp; Developer</h2>
+          </div>
+          <div class="my-4">
+            <p>mihaelamj@me.com</p>
+            <p>+385995491157</p>
+            <p>Zagreb, Croatia</p>
+            <ul class="ms-3">
+              <li><a href="https://www.linkedin.com/in/mihaelamj" class="m-0">LinkedIn</a></li>
+              <li><a href="https://github.com/mihaelamj" class="m-0">GitHub</a></li>
+              <li><a href="https://aleahim.com" class="m-0">Website</a></li>
+            </ul>
+          </div>
+          <div class="mb-4" style="padding: 20px">
+            <h3 style="font-weight: 700">Summary</h3>
+            <p>Experienced iOS engineer with a deep commitment to modular architecture and elegant code. I specialize in OpenAPI-driven development, building robust, multi-platform Swift applications that scale gracefully. My work is defined by clean structure, extreme attention to testability, and the kind of modularization that makes features easy to extend, reason about, and maintain. I take pride in shipping polished, production-grade software that balances design clarity with engineering precision.</p>
+          </div>
+          <div class="mb-4" style="padding: 20px">
+            <h3 style="font-weight: 700">Experience</h3>
+            <div class="mb-4" style="padding: 20px">
+              <h4 style="font-weight: 700">Code Weaver</h4>
+              <h5>Senior iOS Developer</h5>
+              <p class="text-body-secondary">May 2024 - Jun 2025</p>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">Anonymous Big EU Project</p>
+                <ul class="ms-3">
+                  <p>Refactored client backend OpenAPI specs and built a Swift networking package</p>
+                  <p>Reorganized and clarified existing OpenAPI specifications to better reflect backend capabilities and client requirements. Ensured consistency and accuracy across endpoints and models</p>
+                  <p>Created a modular Swift package to encapsulate networking logic, designed for clean separation of concerns, testability, and reuse across projects</p>
+                  <p>Integrated Swift OpenAPI Generator to automatically generate type-safe API client code from OpenAPI specs, enabling seamless updates and minimizing manual maintenance</p>
+                  <p>Streamlined the build process to regenerate client code automatically upon spec changes, aligning with CI/CD pipelines and reducing the risk of contract drift</p>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Swift</span>
+                  <span class="me-2 badge rounded-pill">SwiftUI</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">OpenAPI</span>
+                  <span class="me-2 badge rounded-pill">Swift Package Manager</span>
+                  <span class="me-2 badge rounded-pill">Swift Server</span>
+                  <span class="me-2 badge rounded-pill">Unit Testing</span>
+                  <span class="me-2 badge rounded-pill">UI Testing</span>
+                  <span class="me-2 badge rounded-pill">Structured Concurrency</span>
+                </div>
+              </div>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">Everliv AI Fitness Chat</p>
+                <ul class="ms-3">
+                  <p>Developed comprehensive OpenAPI YAML specifications defining REST and Server-Sent Events endpoints for real-time chat functionality</p>
+                  <p>Built mock Swift Vapor server implementation with REST API and SSE streaming capabilities for development and testing workflows</p>
+                  <p>Integrated Swift OpenAPI Generator to automatically generate type-safe server code from YAML specifications, enabling seamless API contract enforcement</p>
+                  <p>Generated modular Swift networking layer from OpenAPI specs, providing clean separation of concerns and automatic client code updates</p>
+                  <p>Developed cross-platform SwiftUI chat clients for macOS and iOS with real-time messaging, error handling, and responsive user interfaces</p>
+                  <p>Implemented comprehensive preview and testing systems with mock data scenarios, ensuring robust development workflow and UI validation across platforms</p>
+                  <p>Engineered a custom Server-Sent Events (SSE) client with fine-grained streaming management, async/await handling, and resilient error propagation for real-time interactions</p>
+                  <p>Refactored chat architecture using actors, modular components, and adaptive UI to ensure a scalable, maintainable, and clean codebase</p>
+                  <p>Designed and implemented a rich ActionCard system supporting multiple types (nutrition, goal, measurement, etc.) with expandable content and platform-optimized UX</p>
+                  <p>Enhanced user experience with image upload workflows, previews, adaptive layouts, and cross-platform interaction consistency</p>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Swift</span>
+                  <span class="me-2 badge rounded-pill">SwiftUI</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">OpenAPI</span>
+                  <span class="me-2 badge rounded-pill">Swift Package Manager</span>
+                  <span class="me-2 badge rounded-pill">Unit Testing</span>
+                  <span class="me-2 badge rounded-pill">UI Testing</span>
+                  <span class="me-2 badge rounded-pill">Structured Concurrency</span>
+                  <span class="me-2 badge rounded-pill">SSE</span>
+                  <span class="me-2 badge rounded-pill">OpenAPI</span>
+                  <span class="me-2 badge rounded-pill">Swift Server</span>
+                </div>
+              </div>
+            </div>
+            <div class="mb-4" style="padding: 20px">
+              <h4 style="font-weight: 700">iOLAP</h4>
+              <h5>Senior iOS Developer</h5>
+              <p class="text-body-secondary">Nov 2022 - Mar 2025</p>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600"> ZUMIEZ Stash App</p>
+                <ul class="ms-3">
+                  <p>Worked on the Zumiez Stash app as a Senior iOS Engineer</p>
+                  <p>Created Swift network client code generator from OpenAPI specs</p>
+                  <p>Refactored legacy applications and unit-tested critical components</p>
+                  <p>Implemented a custom lightweight GraphQL client without external dependencies, featuring type-safe request handling, efficient query utilities, custom GraphQL schema parsing, and sophisticated error management</p>
+                  <p>Designed and implemented a modular filtering system with dynamic UI components, supporting complex data sorting and real-time updates</p>
+                </ul>
+                <ul class="ms-3">
+                  <a href="https://www.zumiez.com">https://www.zumiez.com</a>
+                  <a href="https://apps.apple.com/app/apple-store/id1163863113?pt=118023521&amp;ct=1m2501_web_header_rbn_v">https://apps.apple.com/app/apple-store/id1163863113?pt=118023521&amp;ct=1m2501_web_header_rbn_v</a>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Swift</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">OpenAPI</span>
+                  <span class="me-2 badge rounded-pill">GraphQL</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">Swift Package Manager</span>
+                  <span class="me-2 badge rounded-pill">Unit Testing</span>
+                </div>
+              </div>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">AI Chat SDK</p>
+                <ul class="ms-3">
+                  <p>Developed a cross-platform chat SDK for iOS and macOS using Swift and SwiftUI for an AI chatbot</p>
+                  <p>Implemented real-time messaging, speech recognition, and UI components with modern architecture patterns</p>
+                  <p>Designed using modular architecture with 10+ local packages handling UI styling, message management, socket communication, and speech recognition</p>
+                  <p>Built with Combine for reactive programming, protocol-oriented design, and comprehensive testing infrastructure</p>
+                  <p>Implemented platform-specific components with shared protocols ensuring consistent behavior</p>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">WebSockets</span>
+                  <span class="me-2 badge rounded-pill">Swift</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">Artificial Intelligence</span>
+                  <span class="me-2 badge rounded-pill">Swift Package Manager</span>
+                  <span class="me-2 badge rounded-pill">macOS</span>
+                  <span class="me-2 badge rounded-pill">Unit Testing</span>
+                  <span class="me-2 badge rounded-pill">AppKit</span>
+                </div>
+              </div>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">iRobot App</p>
+                <ul class="ms-3">
+                  <p>Objective-C, Swift, SwiftUI, UIKit, C++</p>
+                  <p>Added features for the onboarding process</p>
+                  <p>Automated localization</p>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Swift</span>
+                  <span class="me-2 badge rounded-pill">SwiftUI</span>
+                  <span class="me-2 badge rounded-pill">Swift Package Manager</span>
+                  <span class="me-2 badge rounded-pill">Objective-C</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">Unit Testing</span>
+                </div>
+              </div>
+            </div>
+            <div class="mb-4" style="padding: 20px">
+              <h4 style="font-weight: 700">Cherishing Studio</h4>
+              <h5>Senior iOS Developer</h5>
+              <p class="text-body-secondary">Jul 2019 - Oct 2022</p>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">Wheels Up</p>
+                <ul class="ms-3">
+                  <p>Modernized and refactored legacy Objective-C codebase to Swift</p>
+                  <p>Improved maintainability and fixed bugs</p>
+                  <p>Simplified login flow to enhance user experience and reduce authentication friction</p>
+                  <p>Developed custom UIKit components to improve app performance and user interface</p>
+                </ul>
+                <ul class="ms-3">
+                  <a href="https://wheelsup.com">https://wheelsup.com</a>
+                  <a href="https://itunes.apple.com/us/app/wheels-up/id956615077">https://itunes.apple.com/us/app/wheels-up/id956615077</a>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Objective-C</span>
+                  <span class="me-2 badge rounded-pill">Swift</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">Push Notifications</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">AFNetworking</span>
+                  <span class="me-2 badge rounded-pill">OpenAPI</span>
+                  <span class="me-2 badge rounded-pill">Unit Testing</span>
+                </div>
+              </div>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">Birch Finance</p>
+                <ul class="ms-3">
+                  <p>Refactored a large iOS app's UI and networking layer using modern Swift</p>
+                  <p>Implemented MVVM architecture with a clean separation of concerns</p>
+                  <p>Built a comprehensive networking library with complete test coverage</p>
+                  <p>Organized code into feature-based modules</p>
+                  <p>Improved code quality through formatting, linting, and testing infrastructure</p>
+                </ul>
+                <ul class="ms-3">
+                  <a href="https://www.birchfinance.com">https://www.birchfinance.com</a>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Swift</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">CoreAnimation</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">Unit Testing</span>
+                  <span class="me-2 badge rounded-pill">UI Testing</span>
+                </div>
+              </div>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">Budtz Innovation</p>
+                <ul class="ms-3">
+                  <p>Led the refactoring of a legacy iOS app’s UI and networking stack using modern Swift paradigms</p>
+                  <p>Reorganized the codebase into scalable, feature-driven modules to improve team velocity and onboarding</p>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Swift</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                </div>
+              </div>
+            </div>
+            <div class="mb-4" style="padding: 20px">
+              <h4 style="font-weight: 700">Token</h4>
+              <h5>Senior iOS Developer</h5>
+              <p class="text-body-secondary">Jun 2014 - Aug 2019</p>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">Kindergarten (Cancelled)</p>
+                <ul class="ms-3">
+                  <p>iOS app for a Croatian company, for managing kindergartens</p>
+                  <p>Developed 90% of the app</p>
+                  <p>Designed REST APIs and implemented them in the app</p>
+                  <p>Implemented custom UI design code</p>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Objective-C</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">AFNetworking</span>
+                  <span class="me-2 badge rounded-pill">AutoLayout</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">Carthage</span>
+                  <span class="me-2 badge rounded-pill">Unit Testing</span>
+                  <span class="me-2 badge rounded-pill">CocoaPods</span>
+                </div>
+              </div>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">Whatt - social network</p>
+                <ul class="ms-3">
+                  <p>iOS app for a social network</p>
+                  <p>Developed custom expandable TextView with links and tagging</p>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Objective-C</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">AFNetworking</span>
+                  <span class="me-2 badge rounded-pill">AutoLayout</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">Carthage</span>
+                  <span class="me-2 badge rounded-pill">Unit Testing</span>
+                  <span class="me-2 badge rounded-pill">CoreAnimation</span>
+                  <span class="me-2 badge rounded-pill">CocoaPods</span>
+                </div>
+              </div>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">Christian Resources</p>
+                <ul class="ms-3">
+                  <p>Universal iOS app (iPhone and iPad), for a client through oDesk</p>
+                  <p>Developed the application (100%)</p>
+                  <p>Created design in Sketch and implemented it in the application, with dynamic UI for iPhone 4, iPhone 5, iPhone 6, iPhone 6 Plus, and iPad</p>
+                  <p>Used Core Animation, Auto Layout, AFNetworking, remote audio streaming</p>
+                  <p>Client changed parts of the UI afterward</p>
+                </ul>
+                <ul class="ms-3">
+                  <a href="https://itunes.apple.com/us/app/bible-study-tools-christian/id600610494">https://itunes.apple.com/us/app/bible-study-tools-christian/id600610494</a>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Objective-C</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">AFNetworking</span>
+                  <span class="me-2 badge rounded-pill">AutoLayout</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">Carthage</span>
+                  <span class="me-2 badge rounded-pill">Unit Testing</span>
+                  <span class="me-2 badge rounded-pill">AVFoundation</span>
+                  <span class="me-2 badge rounded-pill">CoreGraphics</span>
+                </div>
+              </div>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">ServicePal</p>
+                <ul class="ms-3">
+                  <p>Added custom features using Objective-C, UIKit</p>
+                  <p>Dynamic Content Framework Developer – designed and implemented a template-based dynamic content creation system that allowed for real-time content generation and updates without requiring app redeployment</p>
+                  <p>Increased development efficiency by 35%</p>
+                </ul>
+                <ul class="ms-3">
+                  <a href="https://servicepal.com">https://servicepal.com</a>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Objective-C</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">CoreData</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">Unit Testing</span>
+                </div>
+              </div>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">Breck World</p>
+                <ul class="ms-3">
+                  <p>Built app from scratch in Swift 4+</p>
+                  <p>Built UI in code using UIKit and Auto Layout</p>
+                  <p>Implemented networking layer using URLSession</p>
+                  <p>ARKit integration</p>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Swift</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">CoreData</span>
+                  <span class="me-2 badge rounded-pill">AutoLayout</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">ARKit</span>
+                </div>
+              </div>
+            </div>
+            <div class="mb-4" style="padding: 20px">
+              <h4 style="font-weight: 700">Masinerija</h4>
+              <h5>Senior iOS Developer</h5>
+              <p class="text-body-secondary">Nov 2018 - May 2019</p>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">Birthdayrama App</p>
+                <ul class="ms-3">
+                  <p>A fun way to share birthday wishes with friends and family</p>
+                  <p>Refactored the entire app</p>
+                  <p>Created a form factory for the app which uses many screens with input fields</p>
+                  <p>Used the latest Auto Layout best practices</p>
+                </ul>
+                <ul class="ms-3">
+                  <a href="https://www.producthunt.com/products/birthdayrama">https://www.producthunt.com/products/birthdayrama</a>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Swift</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">CoreData</span>
+                  <span class="me-2 badge rounded-pill">AutoLayout</span>
+                </div>
+              </div>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">Huxly App</p>
+                <ul class="ms-3">
+                  <p>Newsreader reimagined</p>
+                  <p>Added many features and new screens to the app</p>
+                  <p>Login / Sign up / Forgot password screens (dynamic form screens)</p>
+                  <p>Demographics screens (dynamic radio control screens using Core Animation)</p>
+                  <p>Home and dynamic filter screens</p>
+                  <p>Sharing functionality</p>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Swift</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">CoreData</span>
+                  <span class="me-2 badge rounded-pill">AutoLayout</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">CocoaPods</span>
+                </div>
+              </div>
+            </div>
+            <div class="mb-4" style="padding: 20px">
+              <h4 style="font-weight: 700">Purch</h4>
+              <h5>Mid iOS Developer</h5>
+              <p class="text-body-secondary">Mar 2015 - Oct 2018</p>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">Consumr App</p>
+                <ul class="ms-3">
+                  <p>Adapted existing client application for iOS 8+</p>
+                  <p>Performed detailed gap analysis for the application, including iOS frontend and REST API backend differences</p>
+                  <p>Implemented custom UI design code (from design sheets)</p>
+                  <p>REST API implementation</p>
+                  <p>Used Core Animation, Auto Layout, AFNetworking, Push Notifications</p>
+                </ul>
+                <ul class="ms-3">
+                  <a href="https://x.com/purchxapp">https://x.com/purchxapp</a>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Objective-C</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">Push Notifications</span>
+                  <span class="me-2 badge rounded-pill">CoreAnimation</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">Unit Testing</span>
+                  <span class="me-2 badge rounded-pill">AutoLayout</span>
+                  <span class="me-2 badge rounded-pill">Barcodes &amp; QRCodes</span>
+                </div>
+              </div>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">Shopsavvy App</p>
+                <ul class="ms-3">
+                  <p>App for shopping and barcode scanning</p>
+                  <p>Developer in Swift, UIKit, Auto Layout</p>
+                  <p>Worked on parts of the app including barcode scanning, QR code scanning and creation, and general bug fixing</p>
+                </ul>
+                <ul class="ms-3">
+                  <a href="https://itunes.apple.com/us/app/shop-savvy-barcode-scanner/id338828953">https://itunes.apple.com/us/app/shop-savvy-barcode-scanner/id338828953</a>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Swift</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">CoreAnimation</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">Unit Testing</span>
+                  <span class="me-2 badge rounded-pill">AutoLayout</span>
+                  <span class="me-2 badge rounded-pill">Barcodes &amp; QRCodes</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">Unit Testing</span>
+                  <span class="me-2 badge rounded-pill">Swift Package Manager</span>
+                </div>
+              </div>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">QR Code Reader and Scanner App</p>
+                <ul class="ms-3">
+                  <p>Objective-C, custom UI in code</p>
+                  <p>QR code scanning and creation</p>
+                  <p>Added custom sharing and feedback functionality</p>
+                </ul>
+                <ul class="ms-3">
+                  <a href="https://itunes.apple.com/us/app/qr-code-reader-and-scanner/id388175979">https://itunes.apple.com/us/app/qr-code-reader-and-scanner/id388175979</a>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Objective-C</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">CoreAnimation</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">Unit Testing</span>
+                  <span class="me-2 badge rounded-pill">AutoLayout</span>
+                  <span class="me-2 badge rounded-pill">Barcodes &amp; QRCodes</span>
+                </div>
+              </div>
+            </div>
+            <div class="mb-4" style="padding: 20px">
+              <h4 style="font-weight: 700">Undabot</h4>
+              <h5>Junior iOS Developer</h5>
+              <p class="text-body-secondary">Sep 2013 - Jun 2014</p>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">Tito</p>
+                <ul class="ms-3">
+                  <p>iOS (iPad) book application about the life of Josip Broz Tito</p>
+                  <p>Objective-C, CocoaPods</p>
+                  <p>Implemented custom UI in code (from design sheets)</p>
+                  <p>CoreText custom page layouts</p>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Objective-C</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">CoreText</span>
+                  <span class="me-2 badge rounded-pill">CoreGraphics</span>
+                  <span class="me-2 badge rounded-pill">CoreAnimation</span>
+                  <span class="me-2 badge rounded-pill">Carthage</span>
+                  <span class="me-2 badge rounded-pill">In-App Purchase</span>
+                </div>
+              </div>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">wogibtswas.at</p>
+                <ul class="ms-3">
+                  <p>wogibtswas.at, Austria’s biggest "what’s on offer" portal</p>
+                  <p>Objective-C, AFNetworking, REST services, CocoaPods</p>
+                  <p>Custom UI design in code</p>
+                </ul>
+                <ul class="ms-3">
+                  <a href="https://itunes.apple.com/de/app/wogibtswas.at-aktionen-angebote/id771962700">https://itunes.apple.com/de/app/wogibtswas.at-aktionen-angebote/id771962700</a>
+                  <a href="https://www.wogibtswas.at">https://www.wogibtswas.at</a>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Objective-C</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">AFNetworking</span>
+                  <span class="me-2 badge rounded-pill">AutoLayout</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">Carthage</span>
+                </div>
+              </div>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">Blade Soho App</p>
+                <ul class="ms-3">
+                  <p>Custom app for one of the leading London hair salons</p>
+                  <p>Objective-C, AFNetworking, REST services, CocoaPods</p>
+                  <p>Implemented custom UI in code (from design sheets)</p>
+                </ul>
+                <ul class="ms-3">
+                  <a href="https://www.bladesoho.co.uk">https://www.bladesoho.co.uk</a>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Objective-C</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">AFNetworking</span>
+                  <span class="me-2 badge rounded-pill">AutoLayout</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">Carthage</span>
+                  <span class="me-2 badge rounded-pill">Unit Testing</span>
+                </div>
+              </div>
+              <div class="ms-3" style="padding: 20px">
+                <p style="font-weight: 600">Coachlette App</p>
+                <ul class="ms-3">
+                  <p>Custom app for personal trainers and coaches</p>
+                  <p>Objective-C, AFNetworking, REST services, CocoaPods</p>
+                  <p>Implemented custom UI in code</p>
+                </ul>
+                <div>
+                  <span class="me-2 badge rounded-pill">Objective-C</span>
+                  <span class="me-2 badge rounded-pill">UIKit</span>
+                  <span class="me-2 badge rounded-pill">UI in code</span>
+                  <span class="me-2 badge rounded-pill">AFNetworking</span>
+                  <span class="me-2 badge rounded-pill">AutoLayout</span>
+                  <span class="me-2 badge rounded-pill">REST</span>
+                  <span class="me-2 badge rounded-pill">Carthage</span>
+                  <span class="me-2 badge rounded-pill">Unit Testing</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mb-4">
+            <h3 style="font-weight: 700">Education</h3>
+            <div class="mb-3">
+              <h4 style="font-weight: 700">University of Zagreb, Faculty of Humanities and Social Sciences</h4>
+              <p>M.Sc.</p>
+              <p class="text-body-secondary">Oct 1990 - Jun 1996</p>
+            </div>
+          </div>
+          <div>
+            <h3 style="font-weight: 700">Skills</h3>
+            <div>
+              <span class="me-2 badge rounded-pill">AFNetworking</span>
+              <span class="me-2 badge rounded-pill">ARKit</span>
+              <span class="me-2 badge rounded-pill">AVFoundation</span>
+              <span class="me-2 badge rounded-pill">AppKit</span>
+              <span class="me-2 badge rounded-pill">Artificial Intelligence</span>
+              <span class="me-2 badge rounded-pill">AutoLayout</span>
+              <span class="me-2 badge rounded-pill">Barcodes &amp; QRCodes</span>
+              <span class="me-2 badge rounded-pill">Carthage</span>
+              <span class="me-2 badge rounded-pill">CocoaPods</span>
+              <span class="me-2 badge rounded-pill">CoreAnimation</span>
+              <span class="me-2 badge rounded-pill">CoreData</span>
+              <span class="me-2 badge rounded-pill">CoreGraphics</span>
+              <span class="me-2 badge rounded-pill">CoreText</span>
+              <span class="me-2 badge rounded-pill">GraphQL</span>
+              <span class="me-2 badge rounded-pill">In-App Purchase</span>
+              <span class="me-2 badge rounded-pill">Objective-C</span>
+              <span class="me-2 badge rounded-pill">OpenAPI</span>
+              <span class="me-2 badge rounded-pill">Push Notifications</span>
+              <span class="me-2 badge rounded-pill">REST</span>
+              <span class="me-2 badge rounded-pill">SSE</span>
+              <span class="me-2 badge rounded-pill">Structured Concurrency</span>
+              <span class="me-2 badge rounded-pill">Swift</span>
+              <span class="me-2 badge rounded-pill">Swift Package Manager</span>
+              <span class="me-2 badge rounded-pill">Swift Server</span>
+              <span class="me-2 badge rounded-pill">SwiftUI</span>
+              <span class="me-2 badge rounded-pill">UI Testing</span>
+              <span class="me-2 badge rounded-pill">UI in code</span>
+              <span class="me-2 badge rounded-pill">UIKit</span>
+              <span class="me-2 badge rounded-pill">Unit Testing</span>
+              <span class="me-2 badge rounded-pill">WebSockets</span>
+              <span class="me-2 badge rounded-pill">macOS</span>
+            </div>
+          </div>
+        </div>
+        <a download="mihaela-cv.pdf" href="/mihaela-cv.pdf" class="mb-4">Download PDF Version</a>
+      </div>
+    </div>
+    <div>
+      <div style="margin-bottom: 80px">
+        <div class="mt-5 fs-2 vstack">
+          <div class="mb-0 align-self-center hstack gap-3">
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/mihaelamj" class="mb-0 align-self-center link-secondary"><i class="bi-github"></i></a>
+            <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/mihaelamj/" class="mb-0 align-self-center link-secondary"><i class="bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/syntax-highlighting.js"></script>
+    <script src="/js/ignite-core.js"></script>
+  </body>
+</html>

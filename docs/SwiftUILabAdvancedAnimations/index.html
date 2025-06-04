@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="When I first discovered SwiftUILab’s Advanced Animations, I was impressed by the beautiful animations and transitions it demonstrated. However, I noticed that these examples were primarily focused on iOS, leaving macOS developers without a clear path to implement similar effects. This inspired me to create SwiftUILab_AdvancedAnimations, a port of these animations that works seamlessly on both iOS and macOS." />
+    <meta name="author" content="Mihaela Mihaljevic" />
+    <meta name="generator" content="Ignite v0.6.0" />
+    <title>Bringing Advanced SwiftUI Animations to macOS – Mihaela's Site</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/prism-xcode-dark.css" rel="stylesheet" data-highlight-theme="xcode-dark" />
+    <link href="/css/prism-xcode-light.css" rel="stylesheet" data-highlight-theme="xcode-light" />
+    <link href="/css/prism-plugins.css" rel="stylesheet" />
+    <link href="/css/bootstrap-icons.min.css" rel="stylesheet" />
+    <link href="/css/ignite-core.min.css" rel="stylesheet" />
+    <link href="https://www.aleahim.com/SwiftUILabAdvancedAnimations" rel="canonical" />
+    <script>(function() {
+    function getThemePreference() {
+        return localStorage.getItem('custom-theme') || 'auto';
+    }
+
+    function applyTheme(themeID) {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const lightThemeID = document.documentElement.getAttribute('data-light-theme') || 'light';
+        const darkThemeID = document.documentElement.getAttribute('data-dark-theme') || 'dark';
+        const actualThemeID = themeID === 'auto' ? (prefersDark ? darkThemeID : lightThemeID) : themeID;
+
+        document.documentElement.setAttribute('data-bs-theme', actualThemeID);
+        document.documentElement.setAttribute('data-theme-state', themeID);
+    }
+
+    function applySyntaxTheme() {
+        const syntaxTheme = getComputedStyle(document.documentElement)
+            .getPropertyValue('--syntax-highlight-theme').trim().replace(/"/g, '');
+
+        if (!syntaxTheme) return;
+
+        document.querySelectorAll('link[data-highlight-theme]').forEach(link => {
+            link.setAttribute('disabled', 'disabled');
+        });
+
+        const themeLink = document.querySelector(`link[data-highlight-theme="${syntaxTheme}"]`);
+        if (themeLink) {
+            themeLink.removeAttribute('disabled');
+        }
+    }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        const currentTheme = getThemePreference();
+        if (currentTheme === 'auto') {
+            applyTheme('auto');
+            applySyntaxTheme();
+        }
+    });
+
+    const savedTheme = getThemePreference();
+    applyTheme(savedTheme);
+    applySyntaxTheme();
+})();
+</script>
+    <meta property="og:site_name" content="Aleahim.com" />
+    <meta property="og:image" content="/images/SwiftUILabAdvancedAnimations.png" />
+    <meta name="twitter:image" content="/images/SwiftUILabAdvancedAnimations.png" />
+    <meta property="og:title" content="Bringing Advanced SwiftUI Animations to macOS" />
+    <meta name="twitter:title" content="Bringing Advanced SwiftUI Animations to macOS" />
+    <meta property="og:description" content="When I first discovered SwiftUILab’s Advanced Animations, I was impressed by the beautiful animations and transitions it demonstrated. However, I noticed that these examples were primarily focused on iOS, leaving macOS developers without a clear path to implement similar effects. This inspired me to create SwiftUILab_AdvancedAnimations, a port of these animations that works seamlessly on both iOS and macOS." />
+    <meta name="twitter:description" content="When I first discovered SwiftUILab’s Advanced Animations, I was impressed by the beautiful animations and transitions it demonstrated. However, I noticed that these examples were primarily focused on iOS, leaving macOS developers without a clear path to implement similar effects. This inspired me to create SwiftUILab_AdvancedAnimations, a port of these animations that works seamlessly on both iOS and macOS." />
+    <meta property="og:url" content="https://www.aleahim.com/SwiftUILabAdvancedAnimations" />
+    <meta name="twitter:domain" content="aleahim.com" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:dnt" content="on" />
+  </head>
+  <body class="container">
+    <div style="padding-bottom: 80px">
+      <header>
+        <nav class="fixed-top navbar navbar-expand-md">
+          <div class="container flex-wrap flex-lg-nowrap">
+            <div class="me-2 me-md-auto">
+              <a href="/" class="d-inline-flex align-items-center navbar-brand"><span>Aleahim</span></a>
+            </div>
+            <button type="button" class="navbar-toggler btn" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div id="navbarCollapse" class="collapse navbar-collapse">
+              <ul class="navbar-nav mb-2 mb-md-0 col justify-content-end">
+                <li class="nav-item"><a href="/home" class="nav-link text-nowrap link-primary">Home</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link text-nowrap link-primary">About</a></li>
+                <li class="nav-item"><a href="/c-v-page" class="nav-link text-nowrap link-primary">CV</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+    </div>
+    <div class="ig-main-content">
+      <img src="/images/SwiftUILabAdvancedAnimations.png" alt="" class="img-fluid" />
+      <h1>Bringing Advanced SwiftUI Animations to macOS</h1>
+      <div class="hstack gap-1">
+        <a rel="tag" href="/tags/swift" class="fs-3 mb-0 align-self-center"><span class="badge text-bg-primary rounded-pill">Swift</span></a>
+        <a rel="tag" href="/tags/swift-u-i" class="fs-3 mb-0 align-self-center"><span class="badge text-bg-primary rounded-pill">SwiftUI</span></a>
+        <a rel="tag" href="/tags/animation" class="fs-3 mb-0 align-self-center"><span class="badge text-bg-primary rounded-pill">Animation</span></a>
+        <a rel="tag" href="/tags/mac-o-s" class="fs-3 mb-0 align-self-center"><span class="badge text-bg-primary rounded-pill">macOS</span></a>
+        <a rel="tag" href="/tags/i-o-s" class="fs-3 mb-0 align-self-center"><span class="badge text-bg-primary rounded-pill">iOS</span></a>
+      </div>
+      <p></p>
+      <p>When I first discovered <a href="https://swiftui-lab.com/advanced-animations/">SwiftUILab’s Advanced Animations</a>, I was impressed by the beautiful animations and transitions it demonstrated. However, I noticed that these examples were primarily focused on iOS, leaving macOS developers without a clear path to implement similar effects. This inspired me to create <a href="https://github.com/mihaelamj/SwiftUILab_AdvancedAnimations">SwiftUILab_AdvancedAnimations</a>, a port of these animations that works seamlessly on both iOS and macOS.</p>
+      <h2>The Challenge</h2>
+      <p>SwiftUI’s animation system is powerful but can behave differently across platforms. While iOS and macOS share the same SwiftUI framework, there are subtle differences in how animations are handled, especially when dealing with:</p>
+      <ul>
+        <li>Gesture recognizers</li>
+        <li>View transitions</li>
+        <li>Animation timing</li>
+        <li>Platform-specific UI elements</li>
+      </ul>
+      <p>My goal was to create a unified codebase that would work flawlessly on both platforms while maintaining the original animations’ elegance and performance.</p>
+      <h2>Project Structure</h2>
+      <p>I organized the project to make it easy to understand and extend:</p>
+      <pre><code>SwiftUILab_AA/
+├── Examples/
+│   ├── Animation1/
+│   ├── Animation2/
+│   └── ...
+├── Shared/
+│   ├── Views/
+│   ├── Models/
+│   └── Extensions/
+└── App/
+    ├── iOS/
+    └── macOS/
+</code></pre>
+      <p>Each animation example has its own folder, making it easy to:</p>
+      <ul>
+        <li>Study individual animations in isolation</li>
+        <li>Copy and paste specific animations into other projects</li>
+        <li>Modify and experiment with different parameters</li>
+      </ul>
+      <h2>Key Features</h2>
+      <h3>1. Cross-Platform Compatibility</h3>
+      <p>The project uses SwiftUI’s platform-agnostic features while handling platform-specific requirements:</p>
+      <pre><code class="language-swift">#if os(iOS)
+    // iOS-specific code
+#elseif os(macOS)
+    // macOS-specific code
+#endif
+</code></pre>
+      <h3>2. Reusable Components</h3>
+      <p>I created a set of reusable components that work on both platforms:</p>
+      <pre><code class="language-swift">struct AnimatedButton: View {
+    @State private var isPressed = false
+    
+    var body: some View {
+        Button(action: {}) {
+            Text("Animate")
+                .scaleEffect(isPressed ? 0.95 : 1.0)
+                .animation(.spring(), value: isPressed)
+        }
+        .buttonStyle(PlainButtonStyle())
+        .onHover { hovering in
+            isPressed = hovering
+        }
+    }
+}
+</code></pre>
+      <h3>3. Gesture Handling</h3>
+      <p>The project includes platform-appropriate gesture handling:</p>
+      <pre><code class="language-swift">struct DragGestureView: View {
+    @State private var offset = CGSize.zero
+    
+    var body: some View {
+        Rectangle()
+            .fill(Color.blue)
+            .frame(width: 100, height: 100)
+            .offset(offset)
+            .gesture(
+                DragGesture()
+                    .onChanged { value in
+                        offset = value.translation
+                    }
+                    .onEnded { _ in
+                        withAnimation(.spring()) {
+                            offset = .zero
+                        }
+                    }
+            )
+    }
+}
+</code></pre>
+      <h2>Example Animations</h2>
+      <h3>1. Morphing Shapes</h3>
+      <p>One of the most impressive animations is the shape morphing effect:</p>
+      <pre><code class="language-swift">struct MorphingShape: View {
+    @State private var isMorphed = false
+    
+    var body: some View {
+        Circle()
+            .fill(Color.blue)
+            .frame(width: 100, height: 100)
+            .scaleEffect(isMorphed ? 1.5 : 1.0)
+            .animation(.spring(response: 0.6, dampingFraction: 0.6), value: isMorphed)
+            .onTapGesture {
+                isMorphed.toggle()
+            }
+    }
+}
+</code></pre>
+      <h3>2. Custom Transitions</h3>
+      <p>The project includes several custom transitions that work on both platforms:</p>
+      <pre><code class="language-swift">extension AnyTransition {
+    static var customScale: AnyTransition {
+        .scale(scale: 0.1)
+        .combined(with: .opacity)
+    }
+}
+</code></pre>
+      <h2>Implementation Details</h2>
+      <h3>1. View Extensions</h3>
+      <p>I created several extensions to make animations more reusable:</p>
+      <pre><code class="language-swift">extension View {
+    func animateOnHover() -&gt; some View {
+        self.modifier(HoverAnimationModifier())
+    }
+}
+</code></pre>
+      <h3>2. Animation Timing</h3>
+      <p>Careful attention was paid to animation timing to ensure smooth performance:</p>
+      <pre><code class="language-swift">struct TimingAnimation: View {
+    @State private var isAnimating = false
+    
+    var body: some View {
+        Circle()
+            .fill(Color.red)
+            .frame(width: 50, height: 50)
+            .offset(y: isAnimating ? -100 : 0)
+            .animation(
+                .timingCurve(0.68, -0.6, 0.32, 1.6, duration: 1),
+                value: isAnimating
+            )
+            .onAppear {
+                isAnimating = true
+            }
+    }
+}
+</code></pre>
+      <h2>Benefits for Developers</h2>
+      <ol>
+        <li><strong>Cross-Platform Learning</strong>: Developers can learn SwiftUI animations that work on both iOS and macOS</li>
+        <li><strong>Ready-to-Use Examples</strong>: Each animation is self-contained and can be easily copied into other projects</li>
+        <li><strong>Performance Optimized</strong>: Animations are optimized for smooth performance on both platforms</li>
+        <li><strong>Educational Resource</strong>: The project serves as a comprehensive guide to SwiftUI animations</li>
+      </ol>
+      <h2>Future Improvements</h2>
+      <p>The project is actively maintained with several planned enhancements:</p>
+      <ol>
+        <li>Adding more complex animation examples</li>
+        <li>Implementing accessibility features</li>
+        <li>Creating a documentation site with interactive examples</li>
+        <li>Adding support for visionOS</li>
+      </ol>
+      <h2>Conclusion</h2>
+      <p>SwiftUILab_AdvancedAnimations bridges the gap between iOS and macOS animation development in SwiftUI. By providing a unified codebase and clear examples, it helps developers create beautiful, performant animations that work across Apple’s platforms.</p>
+      <p>Whether you’re building for iOS, macOS, or both, this project provides valuable insights into SwiftUI’s animation capabilities and best practices for cross-platform development.</p>
+      <h2>Resources</h2>
+      <ul>
+        <li><a href="https://github.com/mihaelamj/SwiftUILab_AdvancedAnimations">GitHub Repository</a></li>
+        <li><a href="https://swiftui-lab.com/advanced-animations/">Original SwiftUILab Article</a></li>
+        <li><a href="https://developer.apple.com/documentation/swiftui">SwiftUI Documentation</a></li>
+      </ul>
+      <p></p>
+    </div>
+    <div>
+      <div style="margin-bottom: 80px">
+        <div class="mt-5 fs-2 vstack">
+          <div class="mb-0 align-self-center hstack gap-3">
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/mihaelamj" class="mb-0 align-self-center link-secondary"><i class="bi-github"></i></a>
+            <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/mihaelamj/" class="mb-0 align-self-center link-secondary"><i class="bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/syntax-highlighting.js"></script>
+    <script src="/js/ignite-core.js"></script>
+  </body>
+</html>

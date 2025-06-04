@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Mihaela Mihaljevic" />
+    <meta name="generator" content="Ignite v0.6.0" />
+    <title>About – Mihaela's Site</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/prism-xcode-dark.css" rel="stylesheet" data-highlight-theme="xcode-dark" />
+    <link href="/css/prism-xcode-light.css" rel="stylesheet" data-highlight-theme="xcode-light" />
+    <link href="/css/prism-plugins.css" rel="stylesheet" />
+    <link href="/css/bootstrap-icons.min.css" rel="stylesheet" />
+    <link href="/css/ignite-core.min.css" rel="stylesheet" />
+    <link href="https://www.aleahim.com/about" rel="canonical" />
+    <script>(function() {
+    function getThemePreference() {
+        return localStorage.getItem('custom-theme') || 'auto';
+    }
+
+    function applyTheme(themeID) {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const lightThemeID = document.documentElement.getAttribute('data-light-theme') || 'light';
+        const darkThemeID = document.documentElement.getAttribute('data-dark-theme') || 'dark';
+        const actualThemeID = themeID === 'auto' ? (prefersDark ? darkThemeID : lightThemeID) : themeID;
+
+        document.documentElement.setAttribute('data-bs-theme', actualThemeID);
+        document.documentElement.setAttribute('data-theme-state', themeID);
+    }
+
+    function applySyntaxTheme() {
+        const syntaxTheme = getComputedStyle(document.documentElement)
+            .getPropertyValue('--syntax-highlight-theme').trim().replace(/"/g, '');
+
+        if (!syntaxTheme) return;
+
+        document.querySelectorAll('link[data-highlight-theme]').forEach(link => {
+            link.setAttribute('disabled', 'disabled');
+        });
+
+        const themeLink = document.querySelector(`link[data-highlight-theme="${syntaxTheme}"]`);
+        if (themeLink) {
+            themeLink.removeAttribute('disabled');
+        }
+    }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        const currentTheme = getThemePreference();
+        if (currentTheme === 'auto') {
+            applyTheme('auto');
+            applySyntaxTheme();
+        }
+    });
+
+    const savedTheme = getThemePreference();
+    applyTheme(savedTheme);
+    applySyntaxTheme();
+})();
+</script>
+    <meta property="og:site_name" content="Aleahim.com" />
+    <meta property="og:title" content="About" />
+    <meta name="twitter:title" content="About" />
+    <meta property="og:url" content="https://www.aleahim.com/about" />
+    <meta name="twitter:domain" content="aleahim.com" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:dnt" content="on" />
+  </head>
+  <body class="container">
+    <div style="padding-bottom: 80px">
+      <header>
+        <nav class="fixed-top navbar navbar-expand-md">
+          <div class="container flex-wrap flex-lg-nowrap">
+            <div class="me-2 me-md-auto">
+              <a href="/" class="d-inline-flex align-items-center navbar-brand"><span>Aleahim</span></a>
+            </div>
+            <button type="button" class="navbar-toggler btn" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div id="navbarCollapse" class="collapse navbar-collapse">
+              <ul class="navbar-nav mb-2 mb-md-0 col justify-content-end">
+                <li class="nav-item"><a href="/home" class="nav-link text-nowrap link-primary">Home</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link active text-nowrap link-primary" aria-current="page">About</a></li>
+                <li class="nav-item"><a href="/c-v-page" class="nav-link text-nowrap link-primary">CV</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+    </div>
+    <div class="ig-main-content">
+      <div class="py-5">
+        <div class="mb-5">
+          <h2 class="mb-3">About Me</h2>
+          <p class="mb-4">I'm Mihaela, an iOS developer passionate about creating elegant and efficient solutions. With a background in software engineering and a keen interest in Apple technologies, I specialize in developing robust iOS applications.</p>
+        </div>
+        <div>
+          <h2 class="mb-3">Contact</h2>
+          <p class="mb-3">Let's connect! You can reach me through:</p>
+          <ul>
+            <li><a href="https://github.com/mihaelamj" class="me-2">GitHub</a><p>for code samples and projects</p></li>
+            <li><a href="https://www.linkedin.com/in/mihaelamj" class="me-2">LinkedIn</a><p>for professional networking</p></li>
+            <li><a href="mailto:mihaelamj@gmail.com" class="me-2">Email</a><p>for direct communication</p></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="margin-bottom: 80px">
+        <div class="mt-5 fs-2 vstack">
+          <div class="mb-0 align-self-center hstack gap-3">
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/mihaelamj" class="mb-0 align-self-center link-secondary"><i class="bi-github"></i></a>
+            <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/mihaelamj/" class="mb-0 align-self-center link-secondary"><i class="bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/syntax-highlighting.js"></script>
+    <script src="/js/ignite-core.js"></script>
+  </body>
+</html>

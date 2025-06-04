@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Mihaela Mihaljevic" />
+    <meta name="generator" content="Ignite v0.6.0" />
+    <title>Mihaela's Blog – Mihaela's Site</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/prism-xcode-dark.css" rel="stylesheet" data-highlight-theme="xcode-dark" />
+    <link href="/css/prism-xcode-light.css" rel="stylesheet" data-highlight-theme="xcode-light" />
+    <link href="/css/prism-plugins.css" rel="stylesheet" />
+    <link href="/css/bootstrap-icons.min.css" rel="stylesheet" />
+    <link href="/css/ignite-core.min.css" rel="stylesheet" />
+    <link href="https://www.aleahim.com/home" rel="canonical" />
+    <script>(function() {
+    function getThemePreference() {
+        return localStorage.getItem('custom-theme') || 'auto';
+    }
+
+    function applyTheme(themeID) {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const lightThemeID = document.documentElement.getAttribute('data-light-theme') || 'light';
+        const darkThemeID = document.documentElement.getAttribute('data-dark-theme') || 'dark';
+        const actualThemeID = themeID === 'auto' ? (prefersDark ? darkThemeID : lightThemeID) : themeID;
+
+        document.documentElement.setAttribute('data-bs-theme', actualThemeID);
+        document.documentElement.setAttribute('data-theme-state', themeID);
+    }
+
+    function applySyntaxTheme() {
+        const syntaxTheme = getComputedStyle(document.documentElement)
+            .getPropertyValue('--syntax-highlight-theme').trim().replace(/"/g, '');
+
+        if (!syntaxTheme) return;
+
+        document.querySelectorAll('link[data-highlight-theme]').forEach(link => {
+            link.setAttribute('disabled', 'disabled');
+        });
+
+        const themeLink = document.querySelector(`link[data-highlight-theme="${syntaxTheme}"]`);
+        if (themeLink) {
+            themeLink.removeAttribute('disabled');
+        }
+    }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        const currentTheme = getThemePreference();
+        if (currentTheme === 'auto') {
+            applyTheme('auto');
+            applySyntaxTheme();
+        }
+    });
+
+    const savedTheme = getThemePreference();
+    applyTheme(savedTheme);
+    applySyntaxTheme();
+})();
+</script>
+    <meta property="og:site_name" content="Aleahim.com" />
+    <meta property="og:title" content="Mihaela's Blog" />
+    <meta name="twitter:title" content="Mihaela's Blog" />
+    <meta property="og:url" content="https://www.aleahim.com/home" />
+    <meta name="twitter:domain" content="aleahim.com" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:dnt" content="on" />
+  </head>
+  <body class="container">
+    <div style="padding-bottom: 80px">
+      <header>
+        <nav class="fixed-top navbar navbar-expand-md">
+          <div class="container flex-wrap flex-lg-nowrap">
+            <div class="me-2 me-md-auto">
+              <a href="/" class="d-inline-flex align-items-center navbar-brand"><span>Aleahim</span></a>
+            </div>
+            <button type="button" class="navbar-toggler btn" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div id="navbarCollapse" class="collapse navbar-collapse">
+              <ul class="navbar-nav mb-2 mb-md-0 col justify-content-end">
+                <li class="nav-item"><a href="/home" class="nav-link active text-nowrap link-primary" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link text-nowrap link-primary">About</a></li>
+                <li class="nav-item"><a href="/c-v-page" class="nav-link text-nowrap link-primary">CV</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+    </div>
+    <div class="ig-main-content">
+      <h1>Mihaela's Apple Dev Blog</h1>
+      <ul>
+        <div>
+          <div class="mb-3" style="width: 480px; overflow: hidden; border-radius: 15px; display: grid">
+            <img src="/images/cvbuilder.png" alt="" class="w-100 h-100 object-fit-contain mb-0" style="object-position: 50% 0%; height: 320px; max-width: 100.0%; opacity: 0.8; position: relative; grid-area: 1/1; z-index: 0; align-self: flex-end; justify-self: center" />
+            <div class="px-3 py-2 material-regular mb-0" style="line-height: 1.2; width: 100%; max-width: 100.0%; position: relative; grid-area: 1/1; z-index: 1; align-self: flex-end; justify-self: center">
+              <div class="line-height-inherit vstack" style="gap: 6px">
+                <p class="text-body-secondary mb-0 align-self-center" style="font-weight: 500">Apr 13, 2024</p>
+                <a href="/CVBuilder" class="fs-3 mb-0 align-self-center link-primary" style="font-weight: 700">CVBuilder: A Swift Package for Professional CV Management</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="mb-3" style="width: 480px; overflow: hidden; border-radius: 15px; display: grid">
+            <img src="/images/SwiftUILabAdvancedAnimations.png" alt="" class="w-100 h-100 object-fit-contain mb-0" style="object-position: 50% 0%; height: 320px; max-width: 100.0%; opacity: 0.8; position: relative; grid-area: 1/1; z-index: 0; align-self: flex-end; justify-self: center" />
+            <div class="px-3 py-2 material-regular mb-0" style="line-height: 1.2; width: 100%; max-width: 100.0%; position: relative; grid-area: 1/1; z-index: 1; align-self: flex-end; justify-self: center">
+              <div class="line-height-inherit vstack" style="gap: 6px">
+                <p class="text-body-secondary mb-0 align-self-center" style="font-weight: 500">Feb 13, 2022</p>
+                <a href="/SwiftUILabAdvancedAnimations" class="fs-3 mb-0 align-self-center link-primary" style="font-weight: 700">Bringing Advanced SwiftUI Animations to macOS</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="mb-3" style="width: 480px; overflow: hidden; border-radius: 15px; display: grid">
+            <img src="/images/cacube/01_cube_iOS_3D.png" alt="" class="w-100 h-100 object-fit-contain mb-0" style="object-position: 50% 0%; height: 320px; max-width: 100.0%; opacity: 0.8; position: relative; grid-area: 1/1; z-index: 0; align-self: flex-end; justify-self: center" />
+            <div class="px-3 py-2 material-regular mb-0" style="line-height: 1.2; width: 100%; max-width: 100.0%; position: relative; grid-area: 1/1; z-index: 1; align-self: flex-end; justify-self: center">
+              <div class="line-height-inherit vstack" style="gap: 6px">
+                <p class="text-body-secondary mb-0 align-self-center" style="font-weight: 500">Mar 6, 2021</p>
+                <a href="/CoreAnimation3DCube" class="fs-3 mb-0 align-self-center link-primary" style="font-weight: 700">Core Animation Layers forming a 3D cube</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ul>
+    </div>
+    <div>
+      <div style="margin-bottom: 80px">
+        <div class="mt-5 fs-2 vstack">
+          <div class="mb-0 align-self-center hstack gap-3">
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/mihaelamj" class="mb-0 align-self-center link-secondary"><i class="bi-github"></i></a>
+            <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/mihaelamj/" class="mb-0 align-self-center link-secondary"><i class="bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/syntax-highlighting.js"></script>
+    <script src="/js/ignite-core.js"></script>
+  </body>
+</html>
