@@ -12,8 +12,45 @@ struct IgniteWebsite {
             generateMihaelasCVMarkdownInContentFolder()
             let output = "../docs"
             try await site.publish(buildDirectoryPath: output)
+            // Copy static files after build
+            try copyStaticFiles(to: output)
         } catch {
             print(error.localizedDescription)
+        }
+    }
+}
+
+extension IgniteWebsite {
+    static func copyStaticFiles(to outputPath: String) throws {
+        print("📄 Copying static files to \(outputPath)...")
+        
+        let fileManager = FileManager.default
+        
+        // Define files to copy (source -> destination filename)
+        let filesToCopy = [
+            "../mihaela-cv.pdf": "mihaela-cv.pdf"
+            // Add more files here as needed:
+            // "../resume.pdf": "resume.pdf",
+            // "../portfolio.pdf": "portfolio.pdf"
+        ]
+        
+        for (sourcePath, destinationFilename) in filesToCopy {
+            let destinationPath = "\(outputPath)/\(destinationFilename)"
+            
+            // Check if source file exists
+            guard fileManager.fileExists(atPath: sourcePath) else {
+                print("⚠️  Source file not found: \(sourcePath)")
+                continue
+            }
+            
+            // Remove destination file if it exists (in case of overwrite)
+            if fileManager.fileExists(atPath: destinationPath) {
+                try fileManager.removeItem(atPath: destinationPath)
+            }
+            
+            // Copy the file
+            try fileManager.copyItem(atPath: sourcePath, toPath: destinationPath)
+            print("✅ Copied \(sourcePath) → \(destinationPath)")
         }
     }
 }
