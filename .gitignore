@@ -8,5 +8,6 @@
 /_sources
 DerivedData/
 **/.build/
+**/DerivedData/
 
 
